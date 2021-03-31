@@ -1,12 +1,13 @@
 package com.edavtyan.materialplayer2.ui.lists.album_list;
 
-import com.edavtyan.materialplayer2.db.types.Album;
 import com.edavtyan.materialplayer2.db.MediaDB;
+import com.edavtyan.materialplayer2.db.types.Album;
 import com.edavtyan.materialplayer2.db.types.Track;
 import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
 import com.edavtyan.materialplayer2.modular.model.ModelServiceModule;
 import com.edavtyan.materialplayer2.ui.lists.lib.ListModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumListModel extends ListModel {
@@ -16,6 +17,7 @@ public class AlbumListModel extends ListModel {
 	private final AlbumListImageTaskQueue queue;
 
 	protected List<Album> albums;
+	protected List<List<Track>> tracks;
 
 	public AlbumListModel(
 			ModelServiceModule serviceModule,
@@ -25,6 +27,7 @@ public class AlbumListModel extends ListModel {
 		this.mediaDB = mediaDB;
 		this.artProvider = artProvider;
 		this.queue = new AlbumListImageTaskQueue();
+		this.tracks = new ArrayList<>();
 	}
 
 	public Album getAlbumAtIndex(int index) {
@@ -40,7 +43,7 @@ public class AlbumListModel extends ListModel {
 			throw new IllegalStateException("Albums have not been initialized");
 		}
 
-		return mediaDB.getTracksWithAlbumId(albums.get(position).getId());
+		return tracks.get(position);
 	}
 
 	public int getAlbumsCount() {
@@ -54,6 +57,10 @@ public class AlbumListModel extends ListModel {
 
 	public void update() {
 		albums = queryAlbums();
+
+		for (int i = 0; i < albums.size(); i++) {
+			tracks.add(mediaDB.getTracksWithAlbumId(albums.get(i).getId()));
+		}
 	}
 
 	protected List<Album> queryAlbums() {
