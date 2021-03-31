@@ -30,6 +30,13 @@ public class ArtistListModel extends ListModel {
 
 	public void update() {
 		artists = queryArtists();
+
+		for (int i = 0; i < artists.size(); i++) {
+			String artistTitle = artists.get(i).getTitle();
+			Album firstAlbum = mediaDB.getAlbumsWithArtistTitle(artistTitle).get(0);
+			Track track = mediaDB.getTracksWithAlbumId(firstAlbum.getId()).get(0);
+			tracksForAlbumArt.put(i, track);
+		}
 	}
 
 	public void addToPlaylist(int artistId) {
@@ -54,13 +61,6 @@ public class ArtistListModel extends ListModel {
 	}
 
 	public void getArtistImageLink(int position, ArtistListImageTask.Callback callback) {
-		if (!tracksForAlbumArt.containsKey(position)) {
-			String artistTitle = artists.get(position).getTitle();
-			Album firstAlbum = mediaDB.getAlbumsWithArtistTitle(artistTitle).get(0);
-			Track track = mediaDB.getTracksWithAlbumId(firstAlbum.getId()).get(0);
-			tracksForAlbumArt.put(position, track);
-		}
-
 		new ArtistListImageTask(imageLoader, callback).execute(tracksForAlbumArt.get(position));
 	}
 
