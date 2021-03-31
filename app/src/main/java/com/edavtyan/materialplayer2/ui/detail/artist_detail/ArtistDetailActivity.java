@@ -14,6 +14,8 @@ import com.edavtyan.materialplayer2.lib.playlist.models.PlaylistPresenter;
 import com.edavtyan.materialplayer2.lib.transition.SharedTransitionsManager;
 import com.edavtyan.materialplayer2.lib.transition.SourceSharedViews;
 import com.edavtyan.materialplayer2.lib.views.RV;
+import com.edavtyan.materialplayer2.modular.activity.modules.ActivityBaseMenuModule;
+import com.edavtyan.materialplayer2.modular.activity.modules.ActivityToolbarModule;
 import com.edavtyan.materialplayer2.ui.Navigator;
 import com.edavtyan.materialplayer2.ui.lists.album_list.AlbumListView;
 
@@ -37,6 +39,8 @@ public class ArtistDetailActivity
 	@Inject PlaylistPresenter playlistPresenter;
 	@Inject ArtistDetailPresenter presenter;
 	@Inject ArtistDetailAdapter adapter;
+	@Inject ActivityToolbarModule toolbarModule;
+	@Inject ActivityBaseMenuModule baseMenuModule;
 
 	private @Nullable SourceSharedViews sharedViews;
 
@@ -47,6 +51,9 @@ public class ArtistDetailActivity
 
 		setContentView(R.layout.activity_artist);
 		ButterKnife.bind(this);
+
+		addModule(toolbarModule);
+		addModule(baseMenuModule);
 
 		if (sharedViews != null) {
 			transitionsManager.updateSourceViews(sharedViews);
@@ -90,7 +97,7 @@ public class ArtistDetailActivity
 	}
 
 	public void setArtistTitle(String title) {
-		setTitle(title);
+		toolbarModule.setTitleString(title);
 	}
 
 	public void gotoAlbumDetail(int albumId, SourceSharedViews sharedViews) {
