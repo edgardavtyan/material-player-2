@@ -1,13 +1,13 @@
 <!--suppress AndroidDomInspection -->
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.edavtyan.materialplayer"
+	package="com.edavtyan.materialplayer2"
 	>
 
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-	<application android:name="com.edavtyan.materialplayer.App">
+	<application android:name="com.edavtyan.materialplayer2.App">
 
 		<activity android:name=".testlib.TestActivity" />
 		<activity android:name=".lib.base.BaseActivityTest$TestBaseActivity" />

@@ -107,7 +107,7 @@
 				tools:layout_marginTop="120dp"
 				/>
 
-			<com.edavtyan.materialplayer.lib.views.RV
+			<com.edavtyan.materialplayer2.lib.views.RV
 				android:id="@+id/list"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
@@ -131,7 +131,7 @@
 
 		<fragment
 			android:id="@+id/floating_nowplaying"
-			android:name="com.edavtyan.materialplayer.ui.now_playing_bar.NowPlayingBarFragment"
+			android:name="com.edavtyan.materialplayer2.ui.now_playing_bar.NowPlayingBarFragment"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			tools:layout="@layout/fragment_nowplaying_bar"
@@ -154,7 +154,7 @@
 			android:alpha="0"
 			/>
 
-		<com.edavtyan.materialplayer.lib.views.SquareImageView
+		<com.edavtyan.materialplayer2.lib.views.SquareImageView
 			android:id="@+id/preview_image"
 			android:layout_width="match_parent"
 			android:layout_height="0dp"

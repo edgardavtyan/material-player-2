@@ -221,7 +221,7 @@
 
 	<fragment
 		android:id="@+id/fragment_queue"
-		android:name="com.edavtyan.materialplayer.ui.now_playing_queue.NowPlayingQueueFragment"
+		android:name="com.edavtyan.materialplayer2.ui.now_playing_queue.NowPlayingQueueFragment"
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		tools:layout="@layout/fragment_list"

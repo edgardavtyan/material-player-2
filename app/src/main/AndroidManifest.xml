@@ -1,6 +1,6 @@
 <manifest
 	xmlns:android="http://schemas.android.com/apk/res/android"
-	package="com.edavtyan.materialplayer"
+	package="com.edavtyan.materialplayer2"
 	>
 
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -9,7 +9,7 @@
 	<uses-permission android:name="android.permission.INTERNET" />
 
 	<application
-		android:name="com.edavtyan.materialplayer.App"
+		android:name="com.edavtyan.materialplayer2.App"
 		android:allowBackup="true"
 		android:label="@string/app_name"
 		android:icon="@mipmap/ic_launcher"
@@ -18,7 +18,7 @@
 		>
 
 		<activity
-			android:name=".ui.main.MainActivity"
+			android:name="com.edavtyan.materialplayer2.ui.main.MainActivity"
 			android:launchMode="singleTop"
 			>
 			<intent-filter>
@@ -30,31 +30,31 @@
 		</activity>
 
 		<activity
-			android:name=".ui.detail.artist_detail.ArtistDetailActivity"
+			android:name="com.edavtyan.materialplayer2.ui.detail.artist_detail.ArtistDetailActivity"
 			android:theme="@style/AppTheme.Translucent"
 			/>
 
 		<activity
-			android:name=".ui.detail.album_detail.AlbumDetailActivity"
+			android:name="com.edavtyan.materialplayer2.ui.detail.album_detail.AlbumDetailActivity"
 			android:theme="@style/AppTheme.Translucent"
 			/>
 
 		<activity
-			android:name=".ui.now_playing.NowPlayingActivity"
+			android:name="com.edavtyan.materialplayer2.ui.now_playing.NowPlayingActivity"
 			android:theme="@style/AppTheme.Translucent"
 			/>
 
-		<activity android:name=".ui.audio_effects.AudioEffectsActivity" />
-		<activity android:name=".ui.search.SearchActivity" />
-		<activity android:name=".ui.prefs.PrefActivity" />
-		<activity android:name=".ui.detail.playlist_detail.PlaylistDetailActivity" />
+		<activity android:name="com.edavtyan.materialplayer2.ui.audio_effects.AudioEffectsActivity" />
+		<activity android:name="com.edavtyan.materialplayer2.ui.search.SearchActivity" />
+		<activity android:name="com.edavtyan.materialplayer2.ui.prefs.PrefActivity" />
+		<activity android:name="com.edavtyan.materialplayer2.ui.detail.playlist_detail.PlaylistDetailActivity" />
 
 		<service
-			android:name=".service.PlayerService"
+			android:name="com.edavtyan.materialplayer2.service.PlayerService"
 			android:enabled="true"
 			/>
 
-		<receiver android:name=".service.receivers.MediaButtonReceiver">
+		<receiver android:name="com.edavtyan.materialplayer2.service.receivers.MediaButtonReceiver">
 			<intent-filter>
 				<action android:name="android.intent.action.MEDIA_BUTTON" />
 			</intent-filter>
