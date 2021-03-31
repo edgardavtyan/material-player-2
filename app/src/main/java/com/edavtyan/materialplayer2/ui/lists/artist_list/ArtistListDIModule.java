@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment;
 
 import com.edavtyan.materialplayer2.db.MediaDB;
 import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
-import com.edavtyan.materialplayer2.lib.music_api.MusicApi;
-import com.edavtyan.materialplayer2.lib.prefs.AdvancedGsonSharedPrefs;
 import com.edavtyan.materialplayer2.modular.model.ModelServiceModule;
 import com.edavtyan.materialplayer2.ui.FragmentScope;
 import com.edavtyan.materialplayer2.ui.SdkFactory;
@@ -62,19 +60,5 @@ public class ArtistListDIModule {
 	public ArtistListAdapter provideAdapter(
 			Activity activity, ArtistListPresenter presenter, SdkFactory sdkFactory) {
 		return new ArtistListAdapter(activity, presenter, sdkFactory);
-	}
-
-	@Provides
-	@FragmentScope
-	public ArtistListImageLoader provideImageLoader(
-			MusicApi musicApi,
-			ArtistListImageLinkCache linkCache) {
-		return new ArtistListImageLoader(musicApi, linkCache);
-	}
-
-	@Provides
-	@FragmentScope
-	public ArtistListImageLinkCache provideArtistListImageLinkCache(AdvancedGsonSharedPrefs prefs) {
-		return new ArtistListImageLinkCache(prefs);
 	}
 }

@@ -1,7 +1,6 @@
 package com.edavtyan.materialplayer2.ui.lists.artist_list;
 
 import com.edavtyan.materialplayer2.db.types.Artist;
-import com.edavtyan.materialplayer2.lib.transition.SourceSharedViews;
 import com.edavtyan.materialplayer2.ui.lists.lib.ListPresenter;
 
 public class ArtistListPresenter implements ListPresenter<ArtistListViewHolder> {
@@ -46,10 +45,6 @@ public class ArtistListPresenter implements ListPresenter<ArtistListViewHolder> 
 	public void onAddToQueue(int position) {
 		int artistId = model.getArtistAtIndex(position).getId();
 		model.addToPlaylist(artistId);
-	}
-
-	public void onEnterTransitionFinished() {
-
 	}
 
 	public void onAddToPlaylist(int position) {
