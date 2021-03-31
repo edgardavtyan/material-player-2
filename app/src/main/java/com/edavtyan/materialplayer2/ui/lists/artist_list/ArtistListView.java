@@ -7,6 +7,6 @@ import com.edavtyan.materialplayer2.lib.transition.SourceSharedViews;
 import java.util.List;
 
 public interface ArtistListView extends ListView {
-	void gotoArtistDetail(String title, SourceSharedViews sharedViews);
+	void gotoArtistDetail(String title);
 	void showPlaylistSelectionDialog(List<Track> tracks);
 }

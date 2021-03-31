@@ -39,9 +39,8 @@ public class ArtistListPresenter implements ListPresenter<ArtistListViewHolder> 
 		model.unbindService();
 	}
 
-	public void onHolderClick(int position, SourceSharedViews sharedViews) {
-		view.disableTouchEvents();
-		view.gotoArtistDetail(model.getArtistAtIndex(position).getTitle(), sharedViews);
+	public void onHolderClick(int position) {
+		view.gotoArtistDetail(model.getArtistAtIndex(position).getTitle());
 	}
 
 	public void onAddToQueue(int position) {
@@ -50,7 +49,7 @@ public class ArtistListPresenter implements ListPresenter<ArtistListViewHolder> 
 	}
 
 	public void onEnterTransitionFinished() {
-		view.enableTouchEvents();
+
 	}
 
 	public void onAddToPlaylist(int position) {

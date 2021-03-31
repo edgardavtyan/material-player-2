@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/root_main"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	>
+
+	<android.support.design.widget.AppBarLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:fitsSystemWindows="true">
+
+		<include layout="@layout/partial_toolbar" />
+
+	</android.support.design.widget.AppBarLayout>
+
+	<com.edavtyan.materialplayer2.lib.views.RV
+		android:id="@+id/list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:clipToPadding="true"
+		tools:listitem="@layout/listitem_album"
+		/>
+
+	<fragment
+		android:id="@+id/floating_nowplaying"
+		android:name="com.edavtyan.materialplayer2.ui.now_playing_bar.NowPlayingBarFragment"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		tools:layout="@layout/fragment_nowplaying_bar"
+		/>
+
+</LinearLayout>

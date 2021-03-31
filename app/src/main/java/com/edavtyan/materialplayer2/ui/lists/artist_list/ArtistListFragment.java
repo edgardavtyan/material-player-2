@@ -8,7 +8,6 @@ import com.edavtyan.materialplayer2.db.types.Track;
 import com.edavtyan.materialplayer2.lib.playlist.models.PlaylistPresenter;
 import com.edavtyan.materialplayer2.lib.theme.ScreenThemeModule;
 import com.edavtyan.materialplayer2.lib.transition.SharedTransitionsManager;
-import com.edavtyan.materialplayer2.lib.transition.SourceSharedViews;
 import com.edavtyan.materialplayer2.ui.Navigator;
 import com.edavtyan.materialplayer2.ui.lists.lib.ListFragment;
 
@@ -34,9 +33,8 @@ public class ArtistListFragment extends ListFragment implements ArtistListView {
 	}
 
 	@Override
-	public void gotoArtistDetail(String title, SourceSharedViews sharedViews) {
-		transitionsManager.pushSourceViews(sharedViews);
-		navigator.gotoArtistDetailCompact(getActivity(), title, sharedViews.build());
+	public void gotoArtistDetail(String title) {
+		navigator.gotoArtistDetailCompact(getActivity(), title);
 
 	}
 

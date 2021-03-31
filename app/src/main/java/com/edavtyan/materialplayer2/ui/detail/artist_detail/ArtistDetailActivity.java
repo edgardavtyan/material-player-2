@@ -1,36 +1,42 @@
 package com.edavtyan.materialplayer2.ui.detail.artist_detail;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.edavtyan.materialplayer2.App;
 import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.base.BaseActivity;
 import com.edavtyan.materialplayer2.db.types.Track;
 import com.edavtyan.materialplayer2.lib.playlist.models.PlaylistPresenter;
 import com.edavtyan.materialplayer2.lib.transition.SharedTransitionsManager;
 import com.edavtyan.materialplayer2.lib.transition.SourceSharedViews;
+import com.edavtyan.materialplayer2.lib.views.RV;
 import com.edavtyan.materialplayer2.ui.Navigator;
-import com.edavtyan.materialplayer2.ui.detail.lib.ParallaxHeaderListActivity;
 import com.edavtyan.materialplayer2.ui.lists.album_list.AlbumListView;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ArtistDetailActivity
-		extends ParallaxHeaderListActivity
+		extends BaseActivity
 		implements AlbumListView {
 
 	public static final String EXTRA_ARTIST_TITLE = "extra_artistTitle";
+
+	@BindView(R.id.list) RV listView;
 
 	@Inject Navigator navigator;
 	@Inject SharedTransitionsManager transitionsManager;
 	@Inject PlaylistPresenter playlistPresenter;
 	@Inject ArtistDetailPresenter presenter;
+	@Inject ArtistDetailAdapter adapter;
 
 	private @Nullable SourceSharedViews sharedViews;
 
@@ -38,9 +44,18 @@ public class ArtistDetailActivity
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		getComponent().inject(this);
 		super.onCreate(savedInstanceState);
+
+		setContentView(R.layout.activity_artist);
+		ButterKnife.bind(this);
+
 		if (sharedViews != null) {
 			transitionsManager.updateSourceViews(sharedViews);
 		}
+
+		presenter.onCreate();
+
+		listView.setAdapter(adapter);
+		listView.setLayoutManager(new LinearLayoutManager(this));
 	}
 
 	@Override
@@ -69,20 +84,13 @@ public class ArtistDetailActivity
 		playlistPresenter.onAddToPlaylistClick(tracks);
 	}
 
+	@Override
+	public void notifyItemChanged(int position) {
+
+	}
+
 	public void setArtistTitle(String title) {
 		setTitle(title);
-	}
-
-	public void setArtistInfo(int albumsCount, int tracksCount) {
-		Resources res = getResources();
-		String portraitTopInfo = res.getQuantityString(R.plurals.albums, albumsCount, albumsCount);
-		String portraitBottomInfo = res.getQuantityString(R.plurals.tracks, tracksCount, tracksCount);
-		String landscapeInfo = res.getString(R.string.pattern_artist_info, portraitTopInfo, portraitBottomInfo);
-		setInfo(portraitTopInfo, portraitBottomInfo, landscapeInfo);
-	}
-
-	public void setArtistImage(Bitmap image) {
-		setImage(image, R.drawable.fallback_artist);
 	}
 
 	public void gotoAlbumDetail(int albumId, SourceSharedViews sharedViews) {
@@ -98,6 +106,10 @@ public class ArtistDetailActivity
 				.appDIComponent(((App) getApplication()).getAppComponent())
 				.artistDetailDIModule(new ArtistDetailDIModule(this, artistTitle))
 				.build();
+	}
+
+	public void notifyDataSetChanged() {
+		adapter.notifyDataSetChanged();
 	}
 }
 

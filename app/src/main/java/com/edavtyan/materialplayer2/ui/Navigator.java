@@ -21,12 +21,10 @@ public class Navigator {
 		this.context = context;
 	}
 
-	public void gotoArtistDetailCompact(Activity activity, String artistTitle, Bundle bundle) {
+	public void gotoArtistDetailCompact(Activity activity, String artistTitle) {
 		Intent intent = new Intent(activity, ArtistDetailActivity.class);
 		intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_TITLE, artistTitle);
-		intent.putExtras(bundle);
 		activity.startActivity(intent);
-		activity.overridePendingTransition(0, android.R.anim.fade_out);
 	}
 
 	public void gotoAlbumDetail(Activity activity, int albumId, Bundle bundle) {

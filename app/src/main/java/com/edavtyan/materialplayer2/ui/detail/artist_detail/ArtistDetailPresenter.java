@@ -23,8 +23,6 @@ public class ArtistDetailPresenter
 
 		Artist artist = model.getArtist();
 		view.setArtistTitle(artist.getTitle());
-		view.setArtistInfo(artist.getAlbumsCount(), artist.getTracksCount());
-		model.loadArtistImage(view::setArtistImage); // TODO: Unit test this
 	}
 
 	public void onSortByName() {
