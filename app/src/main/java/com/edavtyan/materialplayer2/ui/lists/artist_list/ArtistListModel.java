@@ -1,26 +1,31 @@
 package com.edavtyan.materialplayer2.ui.lists.artist_list;
 
-import com.edavtyan.materialplayer2.db.types.Artist;
 import com.edavtyan.materialplayer2.db.MediaDB;
+import com.edavtyan.materialplayer2.db.types.Album;
+import com.edavtyan.materialplayer2.db.types.Artist;
 import com.edavtyan.materialplayer2.db.types.Track;
+import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
 import com.edavtyan.materialplayer2.modular.model.ModelServiceModule;
 import com.edavtyan.materialplayer2.ui.lists.lib.ListModel;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ArtistListModel extends ListModel {
 
 	private final MediaDB mediaDB;
-	private final ArtistListImageLoader imageLoader;
+	private final AlbumArtProvider imageLoader;
+	private final HashMap<Integer, Track> tracksForAlbumArt;
 	private List<Artist> artists;
 
 	public ArtistListModel(
 			ModelServiceModule serviceModule,
 			MediaDB mediaDB,
-			ArtistListImageLoader imageLoader) {
+			AlbumArtProvider imageLoader) {
 		super(serviceModule);
 		this.mediaDB = mediaDB;
 		this.imageLoader = imageLoader;
+		this.tracksForAlbumArt = new HashMap<>();
 	}
 
 	public void update() {
@@ -49,12 +54,14 @@ public class ArtistListModel extends ListModel {
 	}
 
 	public void getArtistImageLink(int position, ArtistListImageTask.Callback callback) {
-		String artistTitle = artists.get(position).getTitle();
-		if (imageLoader.isCached(artistTitle)) {
-			callback.onArtLoaded(imageLoader.getLinkFromCache(artistTitle));
+		if (!tracksForAlbumArt.containsKey(position)) {
+			String artistTitle = artists.get(position).getTitle();
+			Album firstAlbum = mediaDB.getAlbumsWithArtistTitle(artistTitle).get(0);
+			Track track = mediaDB.getTracksWithAlbumId(firstAlbum.getId()).get(0);
+			tracksForAlbumArt.put(position, track);
 		}
 
-		new ArtistListImageTask(imageLoader, callback).execute(artistTitle);
+		new ArtistListImageTask(imageLoader, callback).execute(tracksForAlbumArt.get(position));
 	}
 
 	protected List<Artist> queryArtists() {

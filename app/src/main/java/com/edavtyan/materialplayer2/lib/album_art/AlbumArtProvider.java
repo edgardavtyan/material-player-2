@@ -55,6 +55,10 @@ public class AlbumArtProvider {
 	}
 
 	public boolean isCached(String albumTitle) {
+		if (albumTitle == null) {
+			return false;
+		}
+
 		return dataStorage.exists(StringUtils.encodeFilename(albumTitle));
 	}
 }

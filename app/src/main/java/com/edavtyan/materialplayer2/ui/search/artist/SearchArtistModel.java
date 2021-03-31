@@ -1,9 +1,9 @@
 package com.edavtyan.materialplayer2.ui.search.artist;
 
-import com.edavtyan.materialplayer2.db.types.Artist;
 import com.edavtyan.materialplayer2.db.MediaDB;
+import com.edavtyan.materialplayer2.db.types.Artist;
+import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
 import com.edavtyan.materialplayer2.modular.model.ModelServiceModule;
-import com.edavtyan.materialplayer2.ui.lists.artist_list.ArtistListImageLoader;
 import com.edavtyan.materialplayer2.ui.lists.artist_list.ArtistListModel;
 import com.edavtyan.materialplayer2.ui.search.base.SearchModel;
 
@@ -17,8 +17,8 @@ public class SearchArtistModel extends ArtistListModel implements SearchModel {
 	public SearchArtistModel(
 			ModelServiceModule serviceModule,
 			MediaDB mediaDB,
-			ArtistListImageLoader imageLoader) {
-		super(serviceModule, mediaDB, imageLoader);
+			AlbumArtProvider albumArtProvider) {
+		super(serviceModule, mediaDB, albumArtProvider);
 		this.mediaDB = mediaDB;
 	}
 

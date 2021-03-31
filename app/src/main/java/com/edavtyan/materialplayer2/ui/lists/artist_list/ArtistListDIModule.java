@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import com.edavtyan.materialplayer2.db.MediaDB;
+import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
 import com.edavtyan.materialplayer2.lib.music_api.MusicApi;
 import com.edavtyan.materialplayer2.lib.prefs.AdvancedGsonSharedPrefs;
 import com.edavtyan.materialplayer2.modular.model.ModelServiceModule;
@@ -46,8 +47,8 @@ public class ArtistListDIModule {
 	public ArtistListModel provideModel(
 			ModelServiceModule serviceModule,
 			MediaDB mediaDB,
-			ArtistListImageLoader imageLoader) {
-		return new ArtistListModel(serviceModule, mediaDB, imageLoader);
+			AlbumArtProvider albumArtProvider) {
+		return new ArtistListModel(serviceModule, mediaDB, albumArtProvider);
 	}
 
 	@Provides
