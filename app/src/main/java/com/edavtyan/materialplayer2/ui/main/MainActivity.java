@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 
-import com.crashlytics.android.Crashlytics;
 import com.edavtyan.materialplayer2.App;
 import com.edavtyan.materialplayer2.R;
 import com.edavtyan.materialplayer2.base.BaseActivityTransparent;
@@ -20,7 +19,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends BaseActivityTransparent {
 	@BindView(R.id.toolbar) Toolbar toolbar;
@@ -37,8 +35,6 @@ public class MainActivity extends BaseActivityTransparent {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		Fabric.with(this, new Crashlytics());
 
 		setContentView(R.layout.activity_main);
 		ButterKnife.bind(this);
