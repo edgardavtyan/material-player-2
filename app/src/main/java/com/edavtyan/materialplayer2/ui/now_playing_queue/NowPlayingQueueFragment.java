@@ -2,26 +2,16 @@ package com.edavtyan.materialplayer2.ui.now_playing_queue;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.edavtyan.materialplayer2.App;
-import com.edavtyan.materialplayer2.R;
 import com.edavtyan.materialplayer2.lib.theme.ScreenThemeModule;
 import com.edavtyan.materialplayer2.ui.lists.lib.ListFragment;
 import com.edavtyan.materialplayer2.ui.lists.lib.ListView;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-
 public class NowPlayingQueueFragment extends ListFragment implements ListView {
-
-	@BindView(R.id.list) RecyclerView list;
-	@BindView(R.id.root) FrameLayout rootView;
-	@BindView(R.id.background) View backgroundView;
-
 	@Inject NowPlayingQueuePresenter presenter;
 	@Inject NowPlayingQueueAdapter adapter;
 	@Inject ScreenThemeModule themeModule;
@@ -47,7 +37,7 @@ public class NowPlayingQueueFragment extends ListFragment implements ListView {
 	@Override
 	public void onCreateView(View view) {
 		super.onCreateView(view);
-		rootView.setVisibility(View.INVISIBLE);
+		binding.root.setVisibility(View.INVISIBLE);
 	}
 
 	@Override

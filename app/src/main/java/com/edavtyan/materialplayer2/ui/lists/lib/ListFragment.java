@@ -3,15 +3,14 @@ package com.edavtyan.materialplayer2.ui.lists.lib;
 import android.view.View;
 
 import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.FragmentListBinding;
 import com.edavtyan.materialplayer2.modular.fragment.ModularFragment;
 import com.edavtyan.materialplayer2.ui.main.MainActivity;
 
-import butterknife.BindView;
-
 public class ListFragment extends ModularFragment implements ListView {
-	@BindView(R.id.background) View backgroundView;
-
 	private ListFragmentModule listFragmentModule;
+
+	protected FragmentListBinding binding;
 
 	protected void initListView(ListPresenter presenter, ListAdapter adapter) {
 		listFragmentModule = new ListFragmentModule(this, adapter, presenter);
@@ -21,8 +20,9 @@ public class ListFragment extends ModularFragment implements ListView {
 	@Override
 	public void onCreateView(View view) {
 		super.onCreateView(view);
+		binding = FragmentListBinding.bind(view);
 		if (isBackgroundEnabled()) {
-			backgroundView.setVisibility(View.VISIBLE);
+			binding.background.setVisibility(View.VISIBLE);
 		}
 	}
 

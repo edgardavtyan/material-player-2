@@ -4,29 +4,21 @@ import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.ed.libsutils.utils.DurationUtils;
 import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.ListitemTrackBinding;
 import com.edavtyan.materialplayer2.lib.testable.TestableViewHolder;
 import com.edavtyan.materialplayer2.modular.viewholder.ContextMenuModule;
 import com.edavtyan.materialplayer2.ui.SdkFactory;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class NowPlayingQueueViewHolder
 		extends TestableViewHolder
 		implements View.OnClickListener,
 				   PopupMenu.OnMenuItemClickListener {
-
-	@BindView(R.id.title) TextView titleView;
-	@BindView(R.id.info) TextView infoView;
-	@BindView(R.id.now_playing) ImageView nowPlayingView;
-
 	private final Context context;
 	private final NowPlayingQueuePresenter presenter;
+	private final ListitemTrackBinding binding;
 
 	public NowPlayingQueueViewHolder(
 			Context context,
@@ -36,8 +28,9 @@ public class NowPlayingQueueViewHolder
 		super(itemView);
 		this.context = context;
 		this.presenter = presenter;
-		ButterKnife.bind(this, itemView);
 		itemView.setOnClickListener(this);
+
+		binding = ListitemTrackBinding.bind(itemView);
 
 		ContextMenuModule contextMenu = new ContextMenuModule(context, sdkFactory);
 		contextMenu.init(itemView, R.id.menu, R.menu.menu_queue);
@@ -45,17 +38,17 @@ public class NowPlayingQueueViewHolder
 	}
 
 	public void setTitle(String title) {
-		titleView.setText(title);
+		binding.title.setText(title);
 	}
 
 	public void setInfo(long durationMillis, String artistTitle, String albumTitle) {
 		String timeStr = DurationUtils.toStringUntilHours(durationMillis);
 		String info = context.getString(R.string.pattern_track_info, timeStr, artistTitle, albumTitle);
-		infoView.setText(info);
+		binding.info.setText(info);
 	}
 
 	public void setIsPlaying(boolean isPlaying) {
-		nowPlayingView.setVisibility(isPlaying ? View.VISIBLE : View.GONE);
+		binding.nowPlaying.setVisibility(isPlaying ? View.VISIBLE : View.GONE);
 	}
 
 	@Override
