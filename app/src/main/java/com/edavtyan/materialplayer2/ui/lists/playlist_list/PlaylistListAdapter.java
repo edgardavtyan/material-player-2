@@ -16,7 +16,7 @@ public class PlaylistListAdapter extends ListAdapter<PlaylistListViewHolder> {
 
 	@Override
 	public int getLayoutId() {
-		return R.layout.listitem_track;
+		return R.layout.listitem_simple;
 	}
 
 	@Override
