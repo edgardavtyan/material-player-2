@@ -2,15 +2,13 @@ package com.edavtyan.materialplayer2.ui.now_playing;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.AppBarLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.edavtyan.materialplayer2.App;
 import com.edavtyan.materialplayer2.R;
 import com.edavtyan.materialplayer2.base.BaseActivityTransparent;
+import com.edavtyan.materialplayer2.databinding.ActivityNowplayingBinding;
 import com.edavtyan.materialplayer2.lib.theme.ScreenThemeModule;
 import com.edavtyan.materialplayer2.lib.transition.OutputSharedViews;
 import com.edavtyan.materialplayer2.lib.transition.SharedTransitionsManager;
@@ -28,8 +26,6 @@ import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingSeekbar;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import lombok.Getter;
 
 public class NowPlayingActivity extends BaseActivityTransparent {
@@ -49,17 +45,16 @@ public class NowPlayingActivity extends BaseActivityTransparent {
 	@Inject @Getter NowPlayingFab fab;
 	@Inject @Getter NowPlayingLyrics lyrics;
 
-	@BindView(R.id.inner_container) ConstraintLayout innerContainerView;
-	@BindView(R.id.appbar) AppBarLayout appbar;
-	@BindView(R.id.background) View background;
-
 	private boolean isQueueShown;
+	private ActivityNowplayingBinding binding;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_nowplaying);
-		ButterKnife.bind(this);
+
+		binding = ActivityNowplayingBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
+
 		getComponent().inject(this);
 		addModule(baseMenuModule);
 		addModule(toolbarModule);
@@ -68,43 +63,43 @@ public class NowPlayingActivity extends BaseActivityTransparent {
 
 		OutputSharedViews.Builder outputViewsBuilder = OutputSharedViews.builder();
 		outputViewsBuilder.sharedViewSets(
-				SharedViewSet.translating("art", art.getArtView(), art.getSharedArtView()));
+				SharedViewSet.translating("art", binding.art, binding.sharedArt));
 		outputViewsBuilder
 				.enterFadingViews(
-						controls.getFastForwardButton(),
-						controls.getPlayPauseButton(),
-						controls.getRepeatButton(),
-						controls.getRewindButton(),
-						controls.getShuffleButton(),
-						art.getArtView(),
-						art.getShadowView(),
-						lyrics.getWrapperView(),
-						seekbar.getCurrentTimeView(),
-						seekbar.getTotalTimeView(),
-						seekbar.getSeekbar(),
-						info.getInfoView(),
-						info.getTitleView(),
-						fab.getView(),
-						appbar,
-						background)
+						binding.fastForward,
+						binding.playPause,
+						binding.repeat,
+						binding.rewind,
+						binding.shuffle,
+						binding.art,
+						binding.artShadow,
+						binding.lyricsWrapper,
+						binding.timeCurrent,
+						binding.timeTotal,
+						binding.seekbar,
+						binding.info,
+						binding.title,
+						binding.fab,
+						binding.appbar,
+						binding.background)
 				.exitPortraitFadingViews(
-						controls.getFastForwardButton(),
-						controls.getPlayPauseButton(),
-						controls.getRepeatButton(),
-						controls.getRewindButton(),
-						controls.getShuffleButton(),
-						art.getArtView(),
-						art.getShadowView(),
-						lyrics.getWrapperView(),
-						seekbar.getCurrentTimeView(),
-						seekbar.getTotalTimeView(),
-						seekbar.getSeekbar(),
-						info.getInfoView(),
-						info.getTitleView(),
-						fab.getView(),
-						appbar,
-						background)
-				.exitLandscapeFadingViews(innerContainerView, fab.getView());
+						binding.fastForward,
+						binding.playPause,
+						binding.repeat,
+						binding.rewind,
+						binding.shuffle,
+						binding.art,
+						binding.artShadow,
+						binding.lyricsWrapper,
+						binding.timeCurrent,
+						binding.timeTotal,
+						binding.seekbar,
+						binding.info,
+						binding.title,
+						binding.fab,
+						binding.appbar,
+						binding.background)
+				.exitLandscapeFadingViews(binding.innerContainer, binding.fab);
 		transitionManager.createSharedTransition(outputViewsBuilder.build());
 		transitionManager.beginEnterTransition(this, savedInstanceState);
 	}
@@ -152,7 +147,7 @@ public class NowPlayingActivity extends BaseActivityTransparent {
 		return DaggerNowPlayingDIComponent
 				.builder()
 				.appDIComponent(((App) getApplication()).getAppComponent())
-				.nowPlayingDIModule(new NowPlayingDIModule(this))
+				.nowPlayingDIModule(new NowPlayingDIModule(this, binding))
 				.activityModulesDIModule(new ActivityModulesDIModule(R.string.nowplaying_toolbar_title))
 				.build();
 	}

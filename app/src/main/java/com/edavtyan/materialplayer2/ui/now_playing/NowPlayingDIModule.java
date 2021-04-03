@@ -3,6 +3,7 @@ package com.edavtyan.materialplayer2.ui.now_playing;
 import android.support.v7.app.AppCompatActivity;
 
 import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.ActivityNowplayingBinding;
 import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
 import com.edavtyan.materialplayer2.lib.lyrics.LyricsProvider;
 import com.edavtyan.materialplayer2.lib.prefs.AdvancedSharedPrefs;
@@ -21,9 +22,11 @@ import dagger.Provides;
 @Module
 public class NowPlayingDIModule {
 	private final NowPlayingActivity activity;
+	private final ActivityNowplayingBinding binding;
 
-	public NowPlayingDIModule(NowPlayingActivity activity) {
+	public NowPlayingDIModule(NowPlayingActivity activity, ActivityNowplayingBinding binding) {
 		this.activity = activity;
+		this.binding = binding;
 	}
 
 	@Provides
@@ -63,44 +66,38 @@ public class NowPlayingDIModule {
 
 	@Provides
 	@ActivityScope
-	public NowPlayingArt provideArtPartial(NowPlayingActivity activity) {
-		return new NowPlayingArt(activity);
+	public NowPlayingArt provideArtPartial() {
+		return new NowPlayingArt(binding);
 	}
 
 	@Provides
 	@ActivityScope
-	public NowPlayingControls provideControlsPartial(
-			NowPlayingActivity activity,
-			NowPlayingPresenter presenter) {
-		return new NowPlayingControls(activity, presenter);
+	public NowPlayingControls provideControlsPartial(NowPlayingPresenter presenter) {
+		return new NowPlayingControls(binding, presenter);
 	}
 
 	@Provides
 	@ActivityScope
-	public NowPlayingFab provideFabPartial(
-			NowPlayingActivity activity,
-			NowPlayingPresenter presenter) {
-		return new NowPlayingFab(activity, presenter);
+	public NowPlayingFab provideFabPartial(NowPlayingPresenter presenter) {
+		return new NowPlayingFab(binding, presenter);
 	}
 
 	@Provides
 	@ActivityScope
 	public NowPlayingInfo provideInfoPartial(NowPlayingActivity activity) {
-		return new NowPlayingInfo(activity);
+		return new NowPlayingInfo(activity, binding);
 	}
 
 	@Provides
 	@ActivityScope
-	public NowPlayingSeekbar provideSeekbarPartial(
-			NowPlayingActivity activity,
-			NowPlayingPresenter presenter) {
-		return new NowPlayingSeekbar(activity, presenter);
+	public NowPlayingSeekbar provideSeekbarPartial(NowPlayingPresenter presenter) {
+		return new NowPlayingSeekbar(binding, presenter);
 	}
 
 	@Provides
 	@ActivityScope
-	public NowPlayingLyrics provideLyricsPartial(NowPlayingActivity activity) {
-		return new NowPlayingLyrics(activity);
+	public NowPlayingLyrics provideLyricsPartial() {
+		return new NowPlayingLyrics(binding);
 	}
 
 	@Provides

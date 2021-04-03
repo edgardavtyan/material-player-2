@@ -2,32 +2,24 @@ package com.edavtyan.materialplayer2.ui.now_playing.models;
 
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.edavtyan.materialplayer2.R;
-import com.edavtyan.materialplayer2.ui.now_playing.NowPlayingActivity;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import lombok.Getter;
+import com.edavtyan.materialplayer2.databinding.ActivityNowplayingBinding;
 
 public class NowPlayingArt {
-	@BindView(R.id.art) @Getter ImageView artView;
-	@BindView(R.id.shared_art) @Getter ImageView sharedArtView;
-	@BindView(R.id.art_shadow) @Getter View shadowView;
+	private final ActivityNowplayingBinding binding;
 
-	public NowPlayingArt(NowPlayingActivity activity) {
-		ButterKnife.bind(this, activity);
+	public NowPlayingArt(ActivityNowplayingBinding binding) {
+		this.binding = binding;
 	}
 
 	public void setArt(@Nullable Bitmap art) {
 		if (art != null) {
-			artView.setImageBitmap(art);
-			sharedArtView.setImageBitmap(art);
+			binding.art.setImageBitmap(art);
+			binding.sharedArt.setImageBitmap(art);
 		} else {
-			artView.setImageResource(R.drawable.fallback_cover);
-			sharedArtView.setImageResource(R.drawable.fallback_cover);
+			binding.art.setImageResource(R.drawable.fallback_cover);
+			binding.sharedArt.setImageResource(R.drawable.fallback_cover);
 		}
 	}
 }
