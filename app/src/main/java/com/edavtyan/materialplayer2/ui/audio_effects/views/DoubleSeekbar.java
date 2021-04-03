@@ -2,18 +2,16 @@ package com.edavtyan.materialplayer2.ui.audio_effects.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.SeekBar;
 
-import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.ViewDoubleSeekbarBinding;
 
-import app.minimize.com.seek_bar_compat.SeekBarCompat;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import lombok.Setter;
 
 public class DoubleSeekbar extends FrameLayout implements SeekBar.OnSeekBarChangeListener {
-	@BindView(R.id.seekbar) SeekBarCompat seekbar;
+	private final ViewDoubleSeekbarBinding binding;
 
 	private @Setter OnStopTrackingTouchListener onStopTrackingTouchListener;
 	private @Setter OnProgressChangedListener onProgressChangedListener;
@@ -28,26 +26,24 @@ public class DoubleSeekbar extends FrameLayout implements SeekBar.OnSeekBarChang
 
 	public DoubleSeekbar(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		inflate(context, R.layout.view_double_seekbar, this);
-		ButterKnife.bind(this);
-
-		seekbar.setOnSeekBarChangeListener(this);
+		binding = ViewDoubleSeekbarBinding.inflate(LayoutInflater.from(context), this);
+		binding.seekbar.setOnSeekBarChangeListener(this);
 	}
 
 	public int getMax() {
-		return seekbar.getMax() / 2;
+		return binding.seekbar.getMax() / 2;
 	}
 
 	public void setMax(int max) {
-		seekbar.setMax(max * 2);
+		binding.seekbar.setMax(max * 2);
 	}
 
 	public int getProgress() {
-		return seekbar.getProgress() - getMax();
+		return binding.seekbar.getProgress() - getMax();
 	}
 
 	public void setProgress(int progress) {
-		seekbar.setProgress(progress + getMax());
+		binding.seekbar.setProgress(progress + getMax());
 	}
 
 	@Override

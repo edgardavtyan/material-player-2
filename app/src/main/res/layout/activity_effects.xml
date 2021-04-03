@@ -25,7 +25,9 @@
 				android:orientation="vertical"
 				>
 
-				<LinearLayout style="@style/AudioEffects_Equalizer_Header">
+				<LinearLayout
+					android:id="@+id/aaa"
+					style="@style/AudioEffects_Equalizer_Header">
 
 					<TextView
 						android:text="@string/equalizer_title"

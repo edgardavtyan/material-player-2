@@ -18,7 +18,7 @@ public class ActivityToolbarModule extends ActivityModule {
 	private static final boolean DEFAULT_BACK_ICON_ENABLED = true;
 
 	private final AppCompatActivity activity;
-	
+
     private final Toolbar toolbar;
 
 	private int titleStringId;

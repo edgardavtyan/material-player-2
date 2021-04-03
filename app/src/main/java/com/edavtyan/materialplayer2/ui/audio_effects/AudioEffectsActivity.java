@@ -3,14 +3,12 @@ package com.edavtyan.materialplayer2.ui.audio_effects;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.TextView;
 
-import com.ed.libsutils.views.CustomSwitchCompat;
 import com.edavtyan.materialplayer2.App;
 import com.edavtyan.materialplayer2.R;
 import com.edavtyan.materialplayer2.base.BaseActivity;
+import com.edavtyan.materialplayer2.databinding.ActivityEffectsBinding;
 import com.edavtyan.materialplayer2.lib.theme.ScreenThemeModule;
 import com.edavtyan.materialplayer2.modular.activity.modules.ActivityBaseMenuModule;
 import com.edavtyan.materialplayer2.modular.activity.modules.ActivityToolbarModule;
@@ -26,23 +24,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class AudioEffectsActivity
 		extends BaseActivity
 		implements CompoundButton.OnCheckedChangeListener,
 				   TitledSeekbar.OnProgressChangedListener,
 				   EqualizerView.OnBandChangedListener {
-
-	@BindView(R.id.equalizer_switch) CustomSwitchCompat equalizerSwitch;
-	@BindView(R.id.equalizer) EqualizerView equalizerView;
-	@BindView(R.id.preset_new) Button newPresetButton;
-	@BindView(R.id.preset_remove) Button deletePresetButton;
-	@BindView(R.id.bass_boost) TitledSeekbar bassBoostView;
-	@BindView(R.id.surround) TitledSeekbar surroundView;
-
-	@BindView(R.id.error_notSupported) TextView errorNotSupportedView;
 
 	@Inject ScreenThemeModule themeModule;
 	@Inject ActivityBaseMenuModule baseMenuModule;
@@ -51,6 +37,8 @@ public class AudioEffectsActivity
 	@Inject NewPresetDialog newPresetDialog;
 	@Inject PresetOverwriteDialog presetOverwriteDialog;
 	@Inject PresetsSpinnerView presetsSpinner;
+
+	private ActivityEffectsBinding binding;
 
 	private final View.OnClickListener onNewPresetClicked = new View.OnClickListener() {
 		@Override
@@ -70,15 +58,15 @@ public class AudioEffectsActivity
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_effects);
-		ButterKnife.bind(this);
+		binding = ActivityEffectsBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
 
-		equalizerSwitch.setOnCheckedChangeListener(this);
-		equalizerView.setOnBandChangedListener(this);
-		bassBoostView.setOnProgressChangedListener(this);
-		surroundView.setOnProgressChangedListener(this);
-		newPresetButton.setOnClickListener(onNewPresetClicked);
-		deletePresetButton.setOnClickListener(onDeletePresetClicked);
+		binding.equalizerSwitch.setOnCheckedChangeListener(this);
+		binding.equalizer.setOnBandChangedListener(this);
+		binding.bassBoost.setOnProgressChangedListener(this);
+		binding.surround.setOnProgressChangedListener(this);
+		binding.presetNew.setOnClickListener(onNewPresetClicked);
+		binding.presetRemove.setOnClickListener(onDeletePresetClicked);
 
 		getComponent().inject(this);
 		addModule(baseMenuModule);
@@ -95,12 +83,12 @@ public class AudioEffectsActivity
 	}
 
 	public void setEqualizerEnabled(boolean enabled) {
-		equalizerSwitch.setChecked(enabled);
-		equalizerSwitch.jumpDrawablesToCurrentState();
+		binding.equalizerSwitch.setChecked(enabled);
+		binding.equalizerSwitch.jumpDrawablesToCurrentState();
 	}
 
 	public void setEqualizerBands(int count, int gainLimit, int[] frequencies, int[] gains) {
-		equalizerView.setBands(count, frequencies, gains, gainLimit);
+		binding.equalizer.setBands(count, frequencies, gains, gainLimit);
 	}
 
 	public void setEqualizerPresets(List<String> builtInPresets, List<String> customPresets) {
@@ -129,22 +117,22 @@ public class AudioEffectsActivity
 
 	public void setDeletePresetButtonEnabled(boolean enabled) {
 		if (enabled) {
-			deletePresetButton.setAlpha(1.0f);
-			deletePresetButton.setEnabled(true);
+			binding.presetRemove.setAlpha(1.0f);
+			binding.presetRemove.setEnabled(true);
 		} else {
-			deletePresetButton.setAlpha(0.5f);
-			deletePresetButton.setEnabled(false);
+			binding.presetRemove.setAlpha(0.5f);
+			binding.presetRemove.setEnabled(false);
 		}
 	}
 
 	public void initBassBoost(int max, int strength) {
-		bassBoostView.setMax(max);
-		bassBoostView.setProgress(strength);
+		binding.bassBoost.setMax(max);
+		binding.bassBoost.setProgress(strength);
 	}
 
 	public void initSurround(int max, int strength) {
-		surroundView.setMax(max);
-		surroundView.setProgress(strength);
+		binding.surround.setMax(max);
+		binding.surround.setProgress(strength);
 	}
 
 	public void setCurrentEqualizerPreset(int presetIndex, Equalizer.PresetType presetType) {
@@ -152,7 +140,7 @@ public class AudioEffectsActivity
 	}
 
 	public void setEqualizerNotSupported() {
-		errorNotSupportedView.setVisibility(View.VISIBLE);
+		binding.errorNotSupported.setVisibility(View.VISIBLE);
 	}
 
 	@Override

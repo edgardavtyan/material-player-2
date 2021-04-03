@@ -3,13 +3,12 @@ package com.edavtyan.materialplayer2.ui.audio_effects.views;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.PartialEqualizerBandBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,9 +17,7 @@ public class EqualizerBandView
 		implements DoubleSeekbar.OnProgressChangedListener,
 				   DoubleSeekbar.OnStopTrackingTouchListener {
 
-	@BindView(R.id.frequency) TextView frequencyView;
-	@BindView(R.id.gain) TextView gainView;
-	@BindView(R.id.band) DoubleSeekbar bandView;
+	private final PartialEqualizerBandBinding binding;
 
 	private int frequency;
 	private @Getter @Setter int index;
@@ -33,28 +30,26 @@ public class EqualizerBandView
 
 	public EqualizerBandView(Context context, @Nullable AttributeSet attrs) {
 		super(context, attrs);
-		inflate(context, R.layout.partial_equalizer_band, this);
-		ButterKnife.bind(this);
-
-		bandView.setOnProgressChangedListener(this);
-		bandView.setOnStopTrackingTouchListener(this);
+		binding = PartialEqualizerBandBinding.inflate(LayoutInflater.from(context), this, true);
+		binding.band.setOnProgressChangedListener(this);
+		binding.band.setOnStopTrackingTouchListener(this);
 	}
 
 	public int getGainLimit() {
-		return bandView.getMax();
+		return binding.band.getMax();
 	}
 
 	public void setGainLimit(int gain) {
-		bandView.setMax(gain);
+		binding.band.setMax(gain);
 	}
 
 	public int getGain() {
-		return bandView.getProgress();
+		return binding.band.getProgress();
 	}
 
 	public void setGain(int gain) {
-		bandView.setProgress(gain);
-		gainView.setText(getGainStr(gain));
+		binding.band.setProgress(gain);
+		binding.gain.setText(getGainStr(gain));
 	}
 
 	public int getFrequency() {
@@ -80,7 +75,7 @@ public class EqualizerBandView
 			frequencyFormat = R.string.equalizer_frequency_hz;
 		}
 
-		frequencyView.setText(getResources().getString(frequencyFormat, frequencyConverted));
+		binding.frequency.setText(getResources().getString(frequencyFormat, frequencyConverted));
 	}
 
 	@Override
@@ -92,7 +87,7 @@ public class EqualizerBandView
 
 	@Override
 	public void onProgressChanged(int progress) {
-		gainView.setText(getGainStr(progress));
+		binding.gain.setText(getGainStr(progress));
 		if (onBandChangedListener != null) {
 			onBandChangedListener.onBandChanged(this);
 		}
