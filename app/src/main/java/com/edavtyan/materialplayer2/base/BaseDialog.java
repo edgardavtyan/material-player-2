@@ -9,16 +9,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 
-import butterknife.ButterKnife;
+import lombok.Getter;
 import lombok.Setter;
 
 public abstract class BaseDialog {
 	private final AlertDialog dialog;
+	@Getter private View view;
 
 	@SuppressWarnings("FieldCanBeLocal")
 	private final DialogInterface.OnShowListener onShowListener = dialogInterface -> {
 		BaseDialog.this.onShow();
 	};
+
 
 	public interface OnDismissListener {
 		void onDismiss();
@@ -44,8 +46,7 @@ public abstract class BaseDialog {
 
 		if (getLayoutRes() != -1) {
 			LayoutInflater inflater = LayoutInflater.from(context);
-			View view = inflater.inflate(getLayoutRes(), null, false);
-			ButterKnife.bind(this, view);
+			view = inflater.inflate(getLayoutRes(), null, false);
 			builder.setView(view);
 		}
 

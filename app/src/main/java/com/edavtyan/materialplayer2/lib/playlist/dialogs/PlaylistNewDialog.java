@@ -2,18 +2,15 @@ package com.edavtyan.materialplayer2.lib.playlist.dialogs;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.DialogPresetNewBinding;
 import com.edavtyan.materialplayer2.base.BaseDialog;
 
-import butterknife.BindView;
 import lombok.Setter;
 
 public class PlaylistNewDialog extends BaseDialog {
-	@BindView(R.id.edittext) EditText editTextView;
-	@BindView(R.id.error_exists) TextView errorExistsView;
+	private final DialogPresetNewBinding binding;
 
 	public interface OnConfirmListener {
 		void onConfirm(String playlistName);
@@ -23,7 +20,8 @@ public class PlaylistNewDialog extends BaseDialog {
 
 	public PlaylistNewDialog(Context context) {
 		super(context);
-		errorExistsView.setText(R.string.playlist_new_exists);
+		binding = DialogPresetNewBinding.bind(getView());
+		binding.errorExists.setText(R.string.playlist_new_exists);
 	}
 
 	@Override
@@ -54,18 +52,18 @@ public class PlaylistNewDialog extends BaseDialog {
 	@Override
 	public void onPositiveButtonClick() {
 		if (onConfirmListener != null) {
-			onConfirmListener.onConfirm(editTextView.getText().toString());
+			onConfirmListener.onConfirm(binding.edittext.getText().toString());
 		}
 	}
 
 	@Override
 	public void show() {
 		super.show();
-		editTextView.setText("");
-		errorExistsView.setVisibility(View.GONE);
+		binding.edittext.setText("");
+		binding.errorExists.setVisibility(View.GONE);
 	}
 
 	public void showAlreadyExistsError() {
-		errorExistsView.setVisibility(View.VISIBLE);
+		binding.errorExists.setVisibility(View.VISIBLE);
 	}
 }

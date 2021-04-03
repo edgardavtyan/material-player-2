@@ -2,17 +2,15 @@ package com.edavtyan.materialplayer2.lib.playlist.dialogs;
 
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.edavtyan.materialplayer2.R;
 import com.edavtyan.materialplayer2.base.BaseDialog;
+import com.edavtyan.materialplayer2.databinding.DialogPlaylistAddBinding;
 
-import butterknife.BindView;
 import lombok.Setter;
 
 public class PlaylistSelectDialog extends BaseDialog {
-	@BindView(R.id.list) RecyclerView list;
 
 	private final PlaylistSelectDialogAdapter adapter;
 
@@ -22,10 +20,12 @@ public class PlaylistSelectDialog extends BaseDialog {
 	public PlaylistSelectDialog(Context context) {
 		super(context);
 
+		DialogPlaylistAddBinding binding = DialogPlaylistAddBinding.bind(getView());
+
 		adapter = new PlaylistSelectDialogAdapter(context);
 		adapter.setOnClickListener(p -> onPlaylistClickListener.onClick(p));
-		list.setAdapter(adapter);
-		list.setLayoutManager(new LinearLayoutManager(context));
+		binding.list.setAdapter(adapter);
+		binding.list.setLayoutManager(new LinearLayoutManager(context));
 	}
 
 	public void show(String[] playlistNames) {

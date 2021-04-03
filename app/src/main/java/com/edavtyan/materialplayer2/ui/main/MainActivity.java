@@ -20,11 +20,13 @@ public class MainActivity extends BaseActivityTransparent {
 	@Inject TabsAdapter tabsAdapter;
 	@Inject TabsPartial tabsPartial;
 
+	private ActivityMainBinding binding;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+		binding = ActivityMainBinding.inflate(getLayoutInflater());
 
 		setContentView(binding.getRoot());
 		getComponent().inject(this);
@@ -47,7 +49,7 @@ public class MainActivity extends BaseActivityTransparent {
 		return DaggerMainDIComponent
 				.builder()
 				.appDIComponent(((App) getApplication()).getAppComponent())
-				.mainDIModule(new MainDIModule(this))
+				.mainDIModule(new MainDIModule(this, binding))
 				.build();
 	}
 }

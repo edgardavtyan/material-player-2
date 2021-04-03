@@ -1,23 +1,20 @@
 package com.edavtyan.materialplayer2.ui.audio_effects.presets;
 
 import android.content.Context;
-import android.widget.EditText;
 
 import com.edavtyan.materialplayer2.R;
-import com.edavtyan.materialplayer2.base.BaseDialog;
+import com.edavtyan.materialplayer2.databinding.DialogPresetNewBinding;
 import com.edavtyan.materialplayer2.ui.audio_effects.AudioEffectsPresenter;
-
-import butterknife.BindView;
+import com.edavtyan.materialplayer2.base.BaseDialog;
 
 public class NewPresetDialog extends BaseDialog {
-	@BindView(R.id.edittext) EditText presetNameEditText;
-
 	private final AudioEffectsPresenter presenter;
+	private final DialogPresetNewBinding binding;
 
 	public NewPresetDialog(Context context, AudioEffectsPresenter presenter) {
 		super(context);
 		this.presenter = presenter;
-
+		this.binding = DialogPresetNewBinding.bind(getView());
 	}
 
 	@Override
@@ -42,17 +39,17 @@ public class NewPresetDialog extends BaseDialog {
 
 	@Override
 	public void onShow() {
-		presetNameEditText.requestFocus();
+		binding.edittext.requestFocus();
 	}
 
 	@Override
 	public void onDismiss() {
-		presetNameEditText.setText(null);
+		binding.edittext.setText(null);
 	}
 
 	@Override
 	public void onPositiveButtonClick() {
-		presenter.onNewPresetDialogOkButtonClicked(presetNameEditText.getText().toString());
+		presenter.onNewPresetDialogOkButtonClicked(binding.edittext.getText().toString());
 	}
 
 	@Override
@@ -61,8 +58,8 @@ public class NewPresetDialog extends BaseDialog {
 	}
 
 	public void show(String presetName) {
-		presetNameEditText.setText(presetName);
-		presetNameEditText.selectAll();
+		binding.edittext.setText(presetName);
+		binding.edittext.selectAll();
 		show();
 	}
 }
