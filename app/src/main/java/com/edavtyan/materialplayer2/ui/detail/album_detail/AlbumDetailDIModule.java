@@ -2,6 +2,7 @@ package com.edavtyan.materialplayer2.ui.detail.album_detail;
 
 import android.support.v7.app.AppCompatActivity;
 
+import com.edavtyan.materialplayer2.databinding.ActivityDetailBinding;
 import com.edavtyan.materialplayer2.db.MediaDB;
 import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
 import com.edavtyan.materialplayer2.lib.testable.TestableRecyclerAdapter;
@@ -16,10 +17,12 @@ import dagger.Provides;
 @Module
 public class AlbumDetailDIModule {
 	private final AlbumDetailActivity activity;
+	private final ActivityDetailBinding binding;
 	private final int albumId;
 
-	public AlbumDetailDIModule(AlbumDetailActivity activity, int albumId) {
+	public AlbumDetailDIModule(AlbumDetailActivity activity, ActivityDetailBinding binding, int albumId) {
 		this.activity = activity;
+		this.binding = binding;
 		this.albumId = albumId;
 	}
 
@@ -27,6 +30,12 @@ public class AlbumDetailDIModule {
 	@ActivityScope
 	public AppCompatActivity provideActivity() {
 		return activity;
+	}
+
+	@Provides
+	@ActivityScope
+	public ActivityDetailBinding provideBinding() {
+		return binding;
 	}
 
 	@Provides

@@ -1,11 +1,9 @@
 package com.edavtyan.materialplayer2.ui.detail.lib;
 
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 
-import com.edavtyan.materialplayer2.R;
 import com.edavtyan.materialplayer2.base.BaseActivityTransparent;
 import com.edavtyan.materialplayer2.lib.theme.ScreenThemeModule;
 import com.edavtyan.materialplayer2.modular.activity.modules.ActivityBaseMenuModule;
@@ -13,8 +11,6 @@ import com.edavtyan.materialplayer2.modular.activity.modules.ActivityToolbarModu
 import com.edavtyan.materialplayer2.ui.lists.lib.ListView;
 
 import javax.inject.Inject;
-
-import butterknife.ButterKnife;
 
 public abstract class ParallaxHeaderListActivity
 		extends BaseActivityTransparent
@@ -26,21 +22,15 @@ public abstract class ParallaxHeaderListActivity
 	@Inject ParallaxHeaderListModule parallaxListModule;
 
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onBackPressed() {
+		callModulesOnBackPressed();
+	}
 
-		setContentView(R.layout.activity_detail);
-		ButterKnife.bind(this);
-
+	public void init() {
 		addModule(baseMenuModule);
 		addModule(toolbarModule);
 		addModule(themeModule);
 		addModule(parallaxListModule);
-	}
-
-	@Override
-	public void onBackPressed() {
-		callModulesOnBackPressed();
 	}
 
 	public void setTitle(String title) {

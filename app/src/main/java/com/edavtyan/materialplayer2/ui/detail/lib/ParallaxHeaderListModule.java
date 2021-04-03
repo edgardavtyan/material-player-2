@@ -4,54 +4,28 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.ed.libsutils.utils.BitmapResizer;
 import com.ed.libsutils.utils.ColorUtils;
 import com.ed.libsutils.utils.DpConverter;
 import com.ed.libsutils.utils.ViewUtils;
 import com.ed.libsutils.utils.WindowUtils;
-import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.ActivityDetailBinding;
 import com.edavtyan.materialplayer2.lib.testable.TestableRecyclerAdapter;
 import com.edavtyan.materialplayer2.lib.transition.OutputSharedViews;
 import com.edavtyan.materialplayer2.lib.transition.SharedTransitionsManager;
 import com.edavtyan.materialplayer2.lib.transition.SharedViewSet;
 import com.edavtyan.materialplayer2.modular.activity.ActivityModule;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ParallaxHeaderListModule extends ActivityModule {
 
 	private static final int SCALED_ART_SIZE_DP = 120;
-
-	@BindView(R.id.appbar) AppBarLayout appbar;
-	@BindView(R.id.title) TextView titleView;
-	@BindView(R.id.info_top) @Nullable TextView portraitTopInfoView;
-	@BindView(R.id.info_bottom) @Nullable TextView portraitBottomInfoView;
-	@BindView(R.id.info) @Nullable TextView landscapeInfoView;
-	@BindView(R.id.art) ImageView artView;
-	@BindView(R.id.shared_art) ImageView sharedArtView;
-	@BindView(R.id.shared_art_exit) @Nullable ImageView sharedArtExitView;
-	@BindView(R.id.info_wrapper) LinearLayout infoWrapper;
-	@BindView(R.id.main_wrapper) View mainWrapper;
-	@BindView(R.id.list_header) @Nullable View header;
-	@BindView(R.id.list) RecyclerView list;
-	@BindView(R.id.list_background) @Nullable View listBackground;
-	@BindView(R.id.appbar_shadow) @Nullable View appbarShadow;
-	@BindView(R.id.click_blocker) @Nullable View clickBlockerView;
-
-	@BindView(R.id.preview_wrapper) FrameLayout previewWrapperView;
-	@BindView(R.id.preview_image) ImageView previewImageView;
-	@BindView(R.id.preview_background) View previewBackgroundView;
 
 	private final RecyclerView.OnScrollListener onScrollListener
 			= new RecyclerView.OnScrollListener() {
@@ -59,21 +33,21 @@ public class ParallaxHeaderListModule extends ActivityModule {
 
 		@Override
 		public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-			assert appbarShadow != null;
-			assert header != null;
-			assert listBackground != null;
+			assert binding.appbarShadow != null;
+			assert binding.listHeader != null;
+			assert binding.listBackground != null;
 
 			totalScrolled += dy;
-			int parallax = (totalScrolled + header.getHeight()) / 2;
+			int parallax = (totalScrolled + binding.listHeader.getHeight()) / 2;
 
-			if (totalScrolled < header.getHeight()) {
-				listBackground.setTranslationY(-totalScrolled);
+			if (totalScrolled < binding.listHeader.getHeight()) {
+				binding.listBackground.setTranslationY(-totalScrolled);
 			} else {
-				listBackground.setTranslationY(-header.getHeight());
+				binding.listBackground.setTranslationY(-binding.listHeader.getHeight());
 			}
 
-			header.setTranslationY(-parallax);
-			appbarShadow.setAlpha(ColorUtils.intToFloatAlpha(parallax));
+			binding.listHeader.setTranslationY(-parallax);
+			binding.appbarShadow.setAlpha(ColorUtils.intToFloatAlpha(parallax));
 		}
 	};
 
@@ -81,6 +55,7 @@ public class ParallaxHeaderListModule extends ActivityModule {
 	private final TestableRecyclerAdapter adapter;
 	private final ParallaxHeaderListPresenter presenter;
 	private final SharedTransitionsManager transitionsManager;
+	private final ActivityDetailBinding binding;
 
 	private int previewDX;
 	private int previewDY;
@@ -94,19 +69,21 @@ public class ParallaxHeaderListModule extends ActivityModule {
 			AppCompatActivity activity,
 			TestableRecyclerAdapter adapter,
 			ParallaxHeaderListPresenter presenter,
-			SharedTransitionsManager transitionsManager) {
+			SharedTransitionsManager transitionsManager,
+			ActivityDetailBinding binding) {
 		this.activity = activity;
 		this.adapter = adapter;
 		this.presenter = presenter;
 		this.transitionsManager = transitionsManager;
+		this.binding = binding;
 	}
 
 	private void onArtClick() {
 		if (!isPreviewDataSet) {
 			int[] artViewLocation = new int[2];
 			int[] previewImageViewLocation = new int[2];
-			artView.getLocationOnScreen(artViewLocation);
-			previewImageView.getLocationOnScreen(previewImageViewLocation);
+			binding.art.getLocationOnScreen(artViewLocation);
+			binding.previewImage.getLocationOnScreen(previewImageViewLocation);
 
 			int screenHeight = WindowUtils.getScreenHeight(activity);
 			int screenWidth = WindowUtils.getScreenWidth(activity);
@@ -115,38 +92,38 @@ public class ParallaxHeaderListModule extends ActivityModule {
 
 			previewDX = artViewLocation[0] - previewImageViewLocation[0];
 			previewDY = artViewLocation[1] - previewImageTop;
-			previewDSize = (float) artView.getWidth() / screenWidth;
+			previewDSize = (float) binding.art.getWidth() / screenWidth;
 			isPreviewDataSet = true;
 		}
 
-		previewImageView.setPivotX(0);
-		previewImageView.setPivotY(0);
-		previewImageView.setTranslationX(previewDX);
-		previewImageView.setTranslationY(previewDY);
-		previewImageView.setScaleX(previewDSize);
-		previewImageView.setScaleY(previewDSize);
+		binding.appbarShadow.setPivotX(0);
+		binding.appbarShadow.setPivotY(0);
+		binding.appbarShadow.setTranslationX(previewDX);
+		binding.appbarShadow.setTranslationY(previewDY);
+		binding.appbarShadow.setScaleX(previewDSize);
+		binding.appbarShadow.setScaleY(previewDSize);
 
-		previewImageView.animate()
+		binding.appbarShadow.animate()
 						.withStartAction(() -> {
-							artView.setVisibility(View.INVISIBLE);
-							previewWrapperView.setVisibility(View.VISIBLE);
+							binding.art.setVisibility(View.INVISIBLE);
+							binding.previewWrapper.setVisibility(View.VISIBLE);
 						})
 						.scaleX(1).scaleY(1)
 						.translationX(0).translationY(0);
-		previewBackgroundView.animate().alpha(1);
+		binding.previewBackground.animate().alpha(1);
 
 		isPreviewOpen = true;
 	}
 
 	private void onPreviewClick() {
-		previewImageView.animate()
+		binding.appbarShadow.animate()
 						.withEndAction(() -> {
-							artView.setVisibility(View.VISIBLE);
-							previewWrapperView.setVisibility(View.GONE);
+							binding.art.setVisibility(View.VISIBLE);
+							binding.previewWrapper.setVisibility(View.GONE);
 						})
 						.scaleX(previewDSize).scaleY(previewDSize)
 						.translationX(previewDX).translationY(previewDY);
-		previewBackgroundView.animate().alpha(0);
+		binding.previewBackground.animate().alpha(0);
 
 		isPreviewOpen = false;
 
@@ -156,33 +133,34 @@ public class ParallaxHeaderListModule extends ActivityModule {
 	public void onCreate(Bundle savedInstanceState) {
 		ButterKnife.bind(this, activity);
 
-		list.setAdapter(adapter);
-		list.setLayoutManager(new LinearLayoutManager(activity));
+		binding.list.setAdapter(adapter);
+		binding.list.setLayoutManager(new LinearLayoutManager(activity));
 
 		if (WindowUtils.isPortrait(activity)) {
-			assert header != null; // Removes lint warning
-			list.addOnScrollListener(onScrollListener);
-			header.post(() -> {
-				assert listBackground != null;
-				list.setPadding(0, header.getHeight(), 0, 0);
-				list.scrollBy(-1000, -1000);
-				listBackground.setTranslationY(header.getHeight());
-				ViewUtils.setHeight(listBackground, activity);
+			assert binding.listHeader != null; // Removes lint warning
+			binding.list.addOnScrollListener(onScrollListener);
+			binding.listHeader.post(() -> {
+				assert binding.listBackground != null;
+				binding.list.setPadding(0, binding.listHeader.getHeight(), 0, 0);
+				binding.list.scrollBy(-1000, -1000);
+				binding.listBackground.setTranslationY(binding.listHeader.getHeight());
+				ViewUtils.setHeight(binding.listBackground, activity);
 			});
 
-			artView.setOnClickListener(v -> onArtClick());
-			previewWrapperView.setOnClickListener(v -> onPreviewClick());
+			binding.art.setOnClickListener(v -> onArtClick());
+			binding.previewWrapper.setOnClickListener(v -> onPreviewClick());
 		}
 
-		assert sharedArtExitView != null;
+		assert binding.sharedArtExit != null;
 		transitionsManager.createSharedTransition(OutputSharedViews
 				.builder()
 				.sharedViewSets(
-						SharedViewSet.translating("art", artView, sharedArtView)
-									 .exitPortraitView(sharedArtExitView))
-				.enterFadingViews(mainWrapper)
+						SharedViewSet.translating("art", binding.art, binding.sharedArt)
+									 .exitPortraitView(binding.sharedArtExit))
+				.enterFadingViews(binding.mainWrapper)
 				.exitPortraitFadingViews(
-						clickBlockerView, listBackground, list, header, appbar)
+						binding.clickBlocker, binding.listBackground, binding.list,
+						binding.listHeader, binding.appbar)
 				.build());
 		transitionsManager.beginEnterTransition(activity, savedInstanceState);
 	}
@@ -213,45 +191,45 @@ public class ParallaxHeaderListModule extends ActivityModule {
 	}
 
 	public void setTitle(String title) {
-		titleView.setText(title);
+		binding.title.setText(title);
 	}
 
 	public void setInfo(String portraitTopInfo, String portraitBottomInfo, String landscapeInfo) {
 		if (WindowUtils.isPortrait(activity)) {
 			// Removes lint warnings
-			assert portraitTopInfoView != null;
-			assert portraitBottomInfoView != null;
+			assert binding.infoTop != null;
+			assert binding.infoBottom != null;
 
-			portraitTopInfoView.setText(portraitTopInfo);
-			portraitBottomInfoView.setText(portraitBottomInfo);
+			binding.infoTop.setText(portraitTopInfo);
+			binding.infoBottom.setText(portraitBottomInfo);
 		} else {
 			// Removes lint warnings
-			assert landscapeInfoView != null;
+			assert binding.info != null;
 
-			landscapeInfoView.setText(landscapeInfo);
+			binding.info.setText(landscapeInfo);
 		}
 	}
 
 	public void setArt(@Nullable Bitmap art, @DrawableRes int fallback) {
 		if (art != null) {
 			if (WindowUtils.isPortrait(activity)) {
-				assert sharedArtExitView != null;
+				assert binding.sharedArtExit != null;
 				int artViewSize = DpConverter.dpToPixel(SCALED_ART_SIZE_DP);
 				Bitmap scaledArt = BitmapResizer.resize(art, artViewSize);
-				artView.setImageBitmap(art);
-				sharedArtView.setImageBitmap(art);
-				sharedArtExitView.setImageBitmap(art);
-				previewImageView.setImageBitmap(art);
+				binding.art.setImageBitmap(art);
+				binding.sharedArt.setImageBitmap(art);
+				binding.sharedArtExit.setImageBitmap(art);
+				binding.previewImage.setImageBitmap(art);
 			} else {
-				sharedArtView.setImageBitmap(art);
-				artView.setImageBitmap(art);
+				binding.sharedArt.setImageBitmap(art);
+				binding.art.setImageBitmap(art);
 			}
 		} else {
-			artView.setImageResource(fallback);
-			sharedArtView.setImageResource(fallback);
+			binding.art.setImageResource(fallback);
+			binding.sharedArt.setImageResource(fallback);
 			if (WindowUtils.isPortrait(activity)) {
-				assert sharedArtExitView != null;
-				sharedArtExitView.setImageResource(fallback);
+				assert binding.sharedArtExit != null;
+				binding.sharedArtExit.setImageResource(fallback);
 			}
 		}
 	}

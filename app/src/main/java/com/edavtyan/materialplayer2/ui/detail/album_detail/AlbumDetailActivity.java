@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.edavtyan.materialplayer2.App;
 import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.ActivityDetailBinding;
 import com.edavtyan.materialplayer2.db.types.Track;
 import com.edavtyan.materialplayer2.lib.playlist.models.PlaylistPresenter;
 import com.edavtyan.materialplayer2.lib.transition.SharedTransitionsManager;
@@ -21,7 +22,6 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AlbumDetailActivity extends ParallaxHeaderListActivity implements TrackListView {
 
@@ -36,11 +36,19 @@ public class AlbumDetailActivity extends ParallaxHeaderListActivity implements T
 	@BindView(R.id.list) RecyclerView list;
 	@BindView(R.id.list_background) @Nullable View listBackground;
 
+	private ActivityDetailBinding binding;
+
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
-		getComponent().inject(this);
 		super.onCreate(savedInstanceState);
-		ButterKnife.bind(this);
+
+		binding = ActivityDetailBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
+
+		getComponent().inject(this);
+
+		init();
+
 	}
 
 	@Override
@@ -69,7 +77,7 @@ public class AlbumDetailActivity extends ParallaxHeaderListActivity implements T
 		return DaggerAlbumDetailDIComponent
 				.builder()
 				.appDIComponent(((App) getApplication()).getAppComponent())
-				.albumDetailDIModule(new AlbumDetailDIModule(this, albumId))
+				.albumDetailDIModule(new AlbumDetailDIModule(this, binding, albumId))
 				.build();
 	}
 }
