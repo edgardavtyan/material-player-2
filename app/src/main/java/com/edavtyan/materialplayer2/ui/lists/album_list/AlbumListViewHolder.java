@@ -6,33 +6,23 @@ import android.support.v4.util.Pair;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.ListitemAlbumBinding;
 import com.edavtyan.materialplayer2.lib.testable.TestableViewHolder;
 import com.edavtyan.materialplayer2.lib.transition.SourceSharedViews;
 import com.edavtyan.materialplayer2.modular.viewholder.ContextMenuModule;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class AlbumListViewHolder
 		extends TestableViewHolder
 		implements PopupMenu.OnMenuItemClickListener,
 				   View.OnClickListener {
-
-	@BindView(R.id.title) TextView titleView;
-	@BindView(R.id.info) TextView infoView;
-	@BindView(R.id.art) ImageView artView;
-	@BindView(R.id.menu) ImageButton menuButton;
-
 	private final Context context;
 	private final AlbumListPresenter presenter;
+	private final ListitemAlbumBinding binding;
 
 	public AlbumListViewHolder(
 			Context context,
@@ -43,7 +33,7 @@ public class AlbumListViewHolder
 		this.context = context;
 		this.presenter = presenter;
 
-		ButterKnife.bind(this, itemView);
+		binding = ListitemAlbumBinding.bind(itemView);
 
 		itemView.setOnClickListener(this);
 
@@ -52,14 +42,14 @@ public class AlbumListViewHolder
 	}
 
 	public void setTitle(String title) {
-		titleView.setText(title);
+		binding.title.setText(title);
 	}
 
 	public void setInfo(int tracksCount, String artist) {
 		Resources res = context.getResources();
 		String tracksCountStr = res.getQuantityString(R.plurals.tracks, tracksCount, tracksCount);
 		String info = res.getString(R.string.pattern_album_info, artist, tracksCountStr);
-		infoView.setText(info);
+		binding.info.setText(info);
 	}
 
 	public void setArt(String artPath) {
@@ -73,12 +63,12 @@ public class AlbumListViewHolder
 			 .load(artPath)
 			 .apply(options)
 			 .transition(DrawableTransitionOptions.withCrossFade())
-			 .into(artView);
+			 .into(binding.art);
 	}
 
 	@Override
 	public void onClick(View v) {
-		SourceSharedViews sharedViews = new SourceSharedViews(Pair.create(artView, "art"));
+		SourceSharedViews sharedViews = new SourceSharedViews(Pair.create(binding.art, "art"));
 		sharedViews.setOnExitAnimationEndListener(presenter::onEnterAnimationEnded);
 		presenter.onHolderClick(getAdapterPositionNonFinal(), sharedViews);
 	}

@@ -4,28 +4,20 @@ import android.content.Context;
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.ed.libsutils.utils.DurationUtils;
 import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.ListitemTrackBinding;
 import com.edavtyan.materialplayer2.lib.testable.TestableViewHolder;
 import com.edavtyan.materialplayer2.modular.viewholder.ContextMenuModule;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class TrackListViewHolder
 		extends TestableViewHolder
 		implements View.OnClickListener,
 				   PopupMenu.OnMenuItemClickListener {
-
-	@BindView(R.id.title) TextView titleView;
-	@BindView(R.id.info) TextView infoView;
-	@BindView(R.id.menu) ImageButton menuButton;
-
 	private final Context context;
 	private final TrackListPresenter presenter;
+	private final ListitemTrackBinding binding;
 
 	public TrackListViewHolder(
 			Context context,
@@ -35,7 +27,7 @@ public class TrackListViewHolder
 		super(itemView);
 		this.context = context;
 		this.presenter = presenter;
-		ButterKnife.bind(this, itemView);
+		this.binding = ListitemTrackBinding.bind(itemView);
 		itemView.setOnClickListener(this);
 
 		contextMenu.init(itemView, R.id.menu, R.menu.menu_track);
@@ -43,13 +35,13 @@ public class TrackListViewHolder
 	}
 
 	public void setTitle(String title) {
-		titleView.setText(title);
+		binding.title.setText(title);
 	}
 
 	public void setInfo(long duration, String artist, String album) {
 		String durationStr = DurationUtils.toStringUntilHours(duration);
 		String info = context.getString(R.string.pattern_track_info, durationStr, artist, album);
-		infoView.setText(info);
+		binding.info.setText(info);
 	}
 
 	@Override
