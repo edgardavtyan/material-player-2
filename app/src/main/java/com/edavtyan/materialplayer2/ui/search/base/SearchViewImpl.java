@@ -1,24 +1,16 @@
 package com.edavtyan.materialplayer2.ui.search.base;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.TextView;
 
-import com.edavtyan.materialplayer2.R;
+import com.edavtyan.materialplayer2.databinding.FragmentListSearchBinding;
 import com.edavtyan.materialplayer2.ui.search.SearchActivity;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class SearchViewImpl implements SearchActivity.OnSearchQueryChangedListener {
-	@BindView(R.id.search_empty) TextView searchEmptyView;
-	@BindView(R.id.search_not_found) TextView searchNotFoundView;
-	@BindView(R.id.list) RecyclerView list;
-
 	private final SearchActivity activity;
 	private final SearchPresenter presenter;
 	private final Fragment fragment;
+	private FragmentListSearchBinding binding;
 
 	public SearchViewImpl(Fragment fragment, SearchPresenter presenter) {
 		this.fragment = fragment;
@@ -32,7 +24,7 @@ public class SearchViewImpl implements SearchActivity.OnSearchQueryChangedListen
 					"Fragment " + fragment.getClass().getSimpleName() + "has no layout");
 		}
 
-		ButterKnife.bind(this, fragment.getView());
+		binding = FragmentListSearchBinding.bind(fragment.getView());
 		activity.addOnSearchQueryChangedListener(this);
 		presenter.onSearchChange(activity.getSearchQuery());
 	}
@@ -42,22 +34,22 @@ public class SearchViewImpl implements SearchActivity.OnSearchQueryChangedListen
 	}
 
 	public void showEmptyQuery() {
-		list.setVisibility(View.INVISIBLE);
-		searchEmptyView.setVisibility(View.VISIBLE);
-		searchNotFoundView.setVisibility(View.INVISIBLE);
+		binding.list.setVisibility(View.INVISIBLE);
+		binding.searchEmpty.setVisibility(View.VISIBLE);
+		binding.searchNotFound.setVisibility(View.INVISIBLE);
 	}
 
 	@Override
 	public void onSearchQueryChanged(String query) {
-		list.setVisibility(View.VISIBLE);
-		searchEmptyView.setVisibility(View.INVISIBLE);
-		searchNotFoundView.setVisibility(View.INVISIBLE);
+		binding.list.setVisibility(View.VISIBLE);
+		binding.searchEmpty.setVisibility(View.INVISIBLE);
+		binding.searchNotFound.setVisibility(View.INVISIBLE);
 		presenter.onSearchChange(query);
 	}
 
 	public void showEmptyResult() {
-		list.setVisibility(View.INVISIBLE);
-		searchEmptyView.setVisibility(View.INVISIBLE);
-		searchNotFoundView.setVisibility(View.VISIBLE);
+		binding.list.setVisibility(View.INVISIBLE);
+		binding.searchEmpty.setVisibility(View.INVISIBLE);
+		binding.searchNotFound.setVisibility(View.VISIBLE);
 	}
 }

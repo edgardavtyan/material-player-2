@@ -3,20 +3,15 @@ package com.edavtyan.materialplayer2.ui.search;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.ed.libsutils.utils.WindowUtils;
 import com.edavtyan.materialplayer2.App;
-import com.edavtyan.materialplayer2.R;
 import com.edavtyan.materialplayer2.base.BaseActivity;
+import com.edavtyan.materialplayer2.databinding.ActivitySearchBinding;
 import com.edavtyan.materialplayer2.lib.theme.ScreenThemeModule;
 import com.edavtyan.materialplayer2.modular.activity.modules.ActivityBaseMenuModule;
 import com.edavtyan.materialplayer2.modular.activity.modules.ActivityToolbarModule;
@@ -26,19 +21,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class SearchActivity extends BaseActivity {
-	@BindView(R.id.back) ImageButton backButton;
-	@BindView(R.id.search) EditText searchEditText;
-	@BindView(R.id.tabs) TabLayout tabLayout;
-	@BindView(R.id.view_pager) ViewPager viewPager;
-	@BindView(R.id.appbar) AppBarLayout appbar;
-
 	@Inject ActivityToolbarModule toolbarModule;
 	@Inject ActivityBaseMenuModule baseMenuModule;
 	@Inject ScreenThemeModule themeModule;
+
+	private ActivitySearchBinding binding;
 
 	private final List<OnSearchQueryChangedListener> onSearchQueryChangedListeners = new ArrayList<>();
 
@@ -61,6 +49,7 @@ public class SearchActivity extends BaseActivity {
 		}
 	};
 
+
 	public interface OnSearchQueryChangedListener {
 		void onSearchQueryChanged(String query);
 	}
@@ -69,18 +58,18 @@ public class SearchActivity extends BaseActivity {
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_search);
-		ButterKnife.bind(this);
+		binding = ActivitySearchBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
 
 		getComponent().inject(this);
 		addModule(baseMenuModule);
 		addModule(themeModule);
 
-		backButton.setOnClickListener(onBackButtonClickListener);
-		searchEditText.addTextChangedListener(onSearchQueryChangeWatcher);
+		binding.back.setOnClickListener(onBackButtonClickListener);
+		binding.search.addTextChangedListener(onSearchQueryChangeWatcher);
 
-		viewPager.setAdapter(new SearchTabsAdapter(getSupportFragmentManager()));
-		tabLayout.setupWithViewPager(viewPager);
+		binding.viewPager.setAdapter(new SearchTabsAdapter(getSupportFragmentManager()));
+		binding.tabs.setupWithViewPager(binding.viewPager);
 
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 		if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
@@ -97,7 +86,7 @@ public class SearchActivity extends BaseActivity {
 	}
 
 	public String getSearchQuery() {
-		return searchEditText.getText().toString();
+		return binding.search.getText().toString();
 	}
 
 	protected SearchDIComponent getComponent() {

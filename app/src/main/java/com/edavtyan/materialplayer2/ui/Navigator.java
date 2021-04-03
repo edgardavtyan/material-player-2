@@ -56,6 +56,7 @@ public class Navigator {
 
 	public void gotoSearch() {
 		Intent intent = new Intent(context, SearchActivity.class);
+		intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(intent);
 	}
 }
