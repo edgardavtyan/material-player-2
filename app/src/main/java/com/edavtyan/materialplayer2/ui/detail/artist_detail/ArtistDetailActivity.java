@@ -9,11 +9,11 @@ import android.view.MenuItem;
 import com.edavtyan.materialplayer2.App;
 import com.edavtyan.materialplayer2.R;
 import com.edavtyan.materialplayer2.base.BaseActivity;
+import com.edavtyan.materialplayer2.databinding.ActivityArtistBinding;
 import com.edavtyan.materialplayer2.db.types.Track;
 import com.edavtyan.materialplayer2.lib.playlist.models.PlaylistPresenter;
 import com.edavtyan.materialplayer2.lib.transition.SharedTransitionsManager;
 import com.edavtyan.materialplayer2.lib.transition.SourceSharedViews;
-import com.edavtyan.materialplayer2.lib.views.RV;
 import com.edavtyan.materialplayer2.modular.activity.modules.ActivityBaseMenuModule;
 import com.edavtyan.materialplayer2.modular.activity.modules.ActivityToolbarModule;
 import com.edavtyan.materialplayer2.ui.Navigator;
@@ -23,16 +23,11 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class ArtistDetailActivity
 		extends BaseActivity
 		implements AlbumListView {
 
 	public static final String EXTRA_ARTIST_TITLE = "extra_artistTitle";
-
-	@BindView(R.id.list) RV listView;
 
 	@Inject Navigator navigator;
 	@Inject SharedTransitionsManager transitionsManager;
@@ -46,11 +41,12 @@ public class ArtistDetailActivity
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
-		getComponent().inject(this);
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.activity_artist);
-		ButterKnife.bind(this);
+		ActivityArtistBinding binding = ActivityArtistBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
+
+		getComponent().inject(this);
 
 		addModule(toolbarModule);
 		addModule(baseMenuModule);
@@ -61,8 +57,8 @@ public class ArtistDetailActivity
 
 		presenter.onCreate();
 
-		listView.setAdapter(adapter);
-		listView.setLayoutManager(new LinearLayoutManager(this));
+		binding.list.setAdapter(adapter);
+		binding.list.setLayoutManager(new LinearLayoutManager(this));
 	}
 
 	@Override
