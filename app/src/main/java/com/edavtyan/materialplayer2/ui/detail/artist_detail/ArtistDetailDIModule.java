@@ -5,15 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.edavtyan.materialplayer2.db.MediaDB;
 import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
-import com.edavtyan.materialplayer2.lib.music_api.MusicApi;
 import com.edavtyan.materialplayer2.lib.prefs.AdvancedSharedPrefs;
-import com.edavtyan.materialplayer2.lib.testable.TestableBitmapFactory;
 import com.edavtyan.materialplayer2.lib.testable.TestableRecyclerAdapter;
 import com.edavtyan.materialplayer2.modular.model.ModelServiceModule;
 import com.edavtyan.materialplayer2.ui.ActivityScope;
 import com.edavtyan.materialplayer2.ui.SdkFactory;
 import com.edavtyan.materialplayer2.ui.detail.lib.ParallaxHeaderListPresenter;
-import com.edavtyan.materialplayer2.utils.WebClient;
 
 import dagger.Module;
 import dagger.Provides;
@@ -45,11 +42,9 @@ public class ArtistDetailDIModule {
 	public ArtistDetailModel provideModel(
 			ModelServiceModule serviceModule,
 			MediaDB mediaDB,
-			ArtistDetailImageLoader imageLoader,
 			ArtistDetailPrefs prefs,
 			AlbumArtProvider albumArtProvider) {
-		return new ArtistDetailModel(
-				serviceModule, mediaDB, imageLoader, albumArtProvider, prefs, artistTitle);
+		return new ArtistDetailModel(serviceModule, mediaDB, albumArtProvider, prefs, artistTitle);
 	}
 
 	@Provides
@@ -75,18 +70,6 @@ public class ArtistDetailDIModule {
 	@ActivityScope
 	public ParallaxHeaderListPresenter provideParallaxPresenter(ArtistDetailPresenter presenter) {
 		return presenter;
-	}
-
-	@Provides
-	@ActivityScope
-	public ArtistDetailImageLoader provideImageLoader(
-			WebClient webClient,
-			MusicApi musicApi,
-			TestableBitmapFactory bitmapFactory,
-			ArtistDetailImageFileStorage fileStorage,
-			ArtistDetailImageMemoryCache memoryCache) {
-		return new ArtistDetailImageLoader(
-				webClient, musicApi, bitmapFactory, fileStorage, memoryCache);
 	}
 
 	@Provides

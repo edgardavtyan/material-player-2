@@ -5,14 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import com.edavtyan.materialplayer2.R;
 import com.edavtyan.materialplayer2.databinding.ActivityNowplayingBinding;
 import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
-import com.edavtyan.materialplayer2.lib.lyrics.LyricsProvider;
-import com.edavtyan.materialplayer2.lib.prefs.AdvancedSharedPrefs;
 import com.edavtyan.materialplayer2.ui.ActivityScope;
 import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingArt;
 import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingControls;
 import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingFab;
 import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingInfo;
-import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingLyrics;
 import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingSeekbar;
 import com.edavtyan.materialplayer2.ui.now_playing_queue.NowPlayingQueueFragment;
 
@@ -50,12 +47,8 @@ public class NowPlayingDIModule {
 
 	@Provides
 	@ActivityScope
-	public NowPlayingModel provideModel(
-			NowPlayingActivity activity,
-			AlbumArtProvider albumArtProvider,
-			LyricsProvider lyricsProvider,
-			LyricsVisiblePref lyricsVisiblePref) {
-		return new NowPlayingModel(activity, albumArtProvider, lyricsProvider, lyricsVisiblePref);
+	public NowPlayingModel provideModel(NowPlayingActivity activity,AlbumArtProvider albumArtProvider) {
+		return new NowPlayingModel(activity, albumArtProvider);
 	}
 
 	@Provides
@@ -92,18 +85,6 @@ public class NowPlayingDIModule {
 	@ActivityScope
 	public NowPlayingSeekbar provideSeekbarPartial(NowPlayingPresenter presenter) {
 		return new NowPlayingSeekbar(binding, presenter);
-	}
-
-	@Provides
-	@ActivityScope
-	public NowPlayingLyrics provideLyricsPartial() {
-		return new NowPlayingLyrics(binding);
-	}
-
-	@Provides
-	@ActivityScope
-	public LyricsVisiblePref provideLyricsVisiblePref(AdvancedSharedPrefs prefs) {
-		return new LyricsVisiblePref(prefs);
 	}
 
 	@Provides

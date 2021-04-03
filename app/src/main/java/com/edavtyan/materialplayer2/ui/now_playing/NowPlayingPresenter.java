@@ -92,15 +92,6 @@ public class NowPlayingPresenter
 		view.getControls().setIsPlaying(model.isPlaying());
 	}
 
-	public void onToggleLyricsClicked() {
-		model.toggleLyricsVisible();
-		if (model.isLyricsVisible()) {
-			view.getLyrics().show();
-		} else {
-			view.getLyrics().hide();
-		}
-	}
-
 	private void updateViewInfo() {
 		view.getInfo().setTitle(model.getTitle());
 		view.getInfo().setInfo(model.getArtist(), model.getAlbum());
@@ -111,28 +102,5 @@ public class NowPlayingPresenter
 		view.getControls().setRepeatMode(model.getRepeatMode());
 		view.getControls().setIsPlaying(model.isPlaying());
 		seekbarTimer.run();
-
-		model.getLyrics(new LyricsTask.OnLyricsLoadedCallback() {
-			@Override
-			public void onLyricsLoaded(String lyrics) {
-				view.getLyrics().setLyrics(lyrics);
-			}
-
-			@Override
-			public void onLyricsNotFound() {
-				view.getLyrics().displayNotFoundError();
-			}
-
-			@Override
-			public void onConnectionError() {
-				view.getLyrics().displayConnectionError();
-			}
-		});
-
-		if (model.isLyricsVisible()) {
-			view.getLyrics().show();
-		} else {
-			view.getLyrics().hide();
-		}
 	}
 }

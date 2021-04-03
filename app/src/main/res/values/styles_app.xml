@@ -15,7 +15,6 @@
 		<item name="custom_dialogButtonColor">@color/black_transparent_slight</item>
 		<item name="custom_nowplayingBarBackground">@color/white</item>
 		<item name="custom_iconMenuSearch">@drawable/ic_search_black</item>
-		<item name="custom_iconMenuLyrics">@drawable/ic_lyrics_black</item>
 		<item name="custom_iconBackArrow">@drawable/ic_arrow_back_black</item>
 		<item name="custom_prefCategoryTitleColor">@color/black_transparent_slight</item>
 		<item name="custom_rippleContrast">@drawable/ripple_primary</item>

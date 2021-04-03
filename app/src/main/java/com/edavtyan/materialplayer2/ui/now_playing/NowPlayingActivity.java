@@ -2,8 +2,6 @@ package com.edavtyan.materialplayer2.ui.now_playing;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.edavtyan.materialplayer2.App;
 import com.edavtyan.materialplayer2.R;
@@ -21,7 +19,6 @@ import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingArt;
 import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingControls;
 import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingFab;
 import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingInfo;
-import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingLyrics;
 import com.edavtyan.materialplayer2.ui.now_playing.models.NowPlayingSeekbar;
 
 import javax.inject.Inject;
@@ -43,7 +40,6 @@ public class NowPlayingActivity extends BaseActivityTransparent {
 	@Inject @Getter NowPlayingArt art;
 	@Inject @Getter NowPlayingSeekbar seekbar;
 	@Inject @Getter NowPlayingFab fab;
-	@Inject @Getter NowPlayingLyrics lyrics;
 
 	private boolean isQueueShown;
 	private ActivityNowplayingBinding binding;
@@ -73,7 +69,6 @@ public class NowPlayingActivity extends BaseActivityTransparent {
 						binding.shuffle,
 						binding.art,
 						binding.artShadow,
-						binding.lyricsWrapper,
 						binding.timeCurrent,
 						binding.timeTotal,
 						binding.seekbar,
@@ -90,7 +85,6 @@ public class NowPlayingActivity extends BaseActivityTransparent {
 						binding.shuffle,
 						binding.art,
 						binding.artShadow,
-						binding.lyricsWrapper,
 						binding.timeCurrent,
 						binding.timeTotal,
 						binding.seekbar,
@@ -108,24 +102,6 @@ public class NowPlayingActivity extends BaseActivityTransparent {
 	public void onDestroy() {
 		super.onDestroy();
 		presenter.unbind();
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		getMenuInflater().inflate(R.menu.menu_nowplaying, menu);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.menu_toggleLyrics:
-			presenter.onToggleLyricsClicked();
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
 	}
 
 	@Override

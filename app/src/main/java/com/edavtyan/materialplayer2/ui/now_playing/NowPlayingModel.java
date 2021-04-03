@@ -9,7 +9,6 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
-import com.edavtyan.materialplayer2.lib.lyrics.LyricsProvider;
 import com.edavtyan.materialplayer2.player.Player;
 import com.edavtyan.materialplayer2.player.RepeatMode;
 import com.edavtyan.materialplayer2.player.ShuffleMode;
@@ -24,8 +23,6 @@ public class NowPlayingModel
 
 	private final Context context;
 	private final AlbumArtProvider albumArtProvider;
-	private final LyricsVisiblePref lyricsVisiblePref;
-	private final LyricsProvider lyricsProvider;
 
 	private PlayerService service;
 
@@ -45,15 +42,9 @@ public class NowPlayingModel
 		void onPlayPause();
 	}
 
-	public NowPlayingModel(
-			Context context,
-			AlbumArtProvider albumArtProvider,
-			LyricsProvider lyricsProvider,
-			LyricsVisiblePref lyricsVisiblePref) {
+	public NowPlayingModel(Context context, AlbumArtProvider albumArtProvider) {
 		this.context = context;
 		this.albumArtProvider = albumArtProvider;
-		this.lyricsVisiblePref = lyricsVisiblePref;
-		this.lyricsProvider = lyricsProvider;
 	}
 
 	public void bind() {
@@ -126,18 +117,6 @@ public class NowPlayingModel
 	@Nullable
 	public Bitmap getArt() {
 		return albumArtProvider.load(service.getPlayer().getCurrentTrack());
-	}
-
-	public void getLyrics(LyricsTask.OnLyricsLoadedCallback callback) {
-		new LyricsTask(lyricsProvider, callback).execute(getArtist(), getTitle());
-	}
-
-	public boolean isLyricsVisible() {
-		return lyricsVisiblePref.isVisible();
-	}
-
-	public void toggleLyricsVisible() {
-		lyricsVisiblePref.toggleVisible();
 	}
 
 	@Override

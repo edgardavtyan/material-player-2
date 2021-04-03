@@ -6,10 +6,6 @@ import com.edavtyan.materialplayer2.db.DbDIModule;
 import com.edavtyan.materialplayer2.db.MediaDB;
 import com.edavtyan.materialplayer2.lib.album_art.AlbumArtDIModule;
 import com.edavtyan.materialplayer2.lib.album_art.AlbumArtProvider;
-import com.edavtyan.materialplayer2.lib.lyrics.LyricsDIModule;
-import com.edavtyan.materialplayer2.lib.lyrics.LyricsProvider;
-import com.edavtyan.materialplayer2.lib.music_api.MusicApi;
-import com.edavtyan.materialplayer2.lib.music_api.MusicApiDIModule;
 import com.edavtyan.materialplayer2.lib.playlist.models.PlaylistManager;
 import com.edavtyan.materialplayer2.lib.playlist.models.PlaylistModelsDIModule;
 import com.edavtyan.materialplayer2.lib.prefs.AdvancedGsonSharedPrefs;
@@ -34,8 +30,6 @@ import dagger.Component;
 		AppDIModule.class,
 		AdvancedSharedPrefsDIModule.class,
 		UtilsDIModule.class,
-		MusicApiDIModule.class,
-		LyricsDIModule.class,
 		DbDIModule.class,
 		AlbumArtDIModule.class,
 		SharedTransitionDIModule.class,
@@ -43,8 +37,6 @@ import dagger.Component;
 public interface AppDIComponent {
 	Context context();
 	SdkFactory sdkFactory();
-	MusicApi musicAPi();
-	LyricsProvider lyricsProvider();
 	AdvancedSharedPrefs advancedPrefs();
 	AdvancedGsonSharedPrefs advancedGsonPrefs();
 	Navigator navigator();
