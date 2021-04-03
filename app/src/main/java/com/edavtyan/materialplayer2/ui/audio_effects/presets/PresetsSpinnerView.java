@@ -11,8 +11,6 @@ import com.edavtyan.materialplayer2.ui.audio_effects.AudioEffectsPresenter;
 
 import java.util.List;
 
-import butterknife.ButterKnife;
-
 public class PresetsSpinnerView {
 	private static final int CUSTOM_NEW_PRESET_POSITION = 0;
 
@@ -43,12 +41,10 @@ public class PresetsSpinnerView {
 	};
 
 	public PresetsSpinnerView(Activity activity, AudioEffectsPresenter presenter) {
-		ButterKnife.bind(this, activity);
-		presetsSpinner = activity.findViewById(R.id.presets_spinner);
-
 		this.presenter = presenter;
-
+		
 		presetsAdapter = new PresetsAdapter(activity);
+		presetsSpinner = activity.findViewById(R.id.presets_spinner);
 		presetsSpinner.setAdapter(presetsAdapter);
 		presetsSpinner.setOnItemSelectedListener(onPresetSelectedListener);
 	}

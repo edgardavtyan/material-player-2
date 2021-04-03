@@ -17,7 +17,8 @@ public class TrackListViewHolder
 				   PopupMenu.OnMenuItemClickListener {
 	private final Context context;
 	private final TrackListPresenter presenter;
-	private final ListitemTrackBinding binding;
+
+	protected final ListitemTrackBinding binding;
 
 	public TrackListViewHolder(
 			Context context,

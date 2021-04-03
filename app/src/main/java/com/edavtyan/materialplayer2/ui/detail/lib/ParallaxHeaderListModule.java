@@ -21,8 +21,6 @@ import com.edavtyan.materialplayer2.lib.transition.SharedTransitionsManager;
 import com.edavtyan.materialplayer2.lib.transition.SharedViewSet;
 import com.edavtyan.materialplayer2.modular.activity.ActivityModule;
 
-import butterknife.ButterKnife;
-
 public class ParallaxHeaderListModule extends ActivityModule {
 
 	private static final int SCALED_ART_SIZE_DP = 120;
@@ -131,8 +129,6 @@ public class ParallaxHeaderListModule extends ActivityModule {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		ButterKnife.bind(this, activity);
-
 		binding.list.setAdapter(adapter);
 		binding.list.setLayoutManager(new LinearLayoutManager(activity));
 

@@ -3,9 +3,6 @@ package com.edavtyan.materialplayer2.ui.detail.album_detail;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.edavtyan.materialplayer2.App;
 import com.edavtyan.materialplayer2.R;
@@ -21,20 +18,13 @@ import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-
 public class AlbumDetailActivity extends ParallaxHeaderListActivity implements TrackListView {
-
 	public static final String EXTRA_ALBUM_ID = "extra_albumId";
 
 	@Inject Navigator navigator;
 	@Inject SharedTransitionsManager transitionsManager;
 	@Inject AlbumDetailPresenter presenter;
 	@Inject PlaylistPresenter playlistPresenter;
-
-	@BindView(R.id.art) ImageView artView;
-	@BindView(R.id.list) RecyclerView list;
-	@BindView(R.id.list_background) @Nullable View listBackground;
 
 	private ActivityDetailBinding binding;
 
@@ -48,7 +38,6 @@ public class AlbumDetailActivity extends ParallaxHeaderListActivity implements T
 		getComponent().inject(this);
 
 		init();
-
 	}
 
 	@Override

@@ -10,11 +10,7 @@ import com.edavtyan.materialplayer2.lib.layout_managers.FixedGridLayoutManager;
 import com.edavtyan.materialplayer2.lib.testable.TestableRecyclerAdapter;
 import com.edavtyan.materialplayer2.modular.fragment.FragmentModule;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class ListFragmentModule extends FragmentModule {
-	@BindView(R.id.list) RecyclerView list;
 	private final Fragment fragment;
 	private final TestableRecyclerAdapter adapter;
 	private final ListPresenter presenter;
@@ -35,9 +31,9 @@ public class ListFragmentModule extends FragmentModule {
 	@Override
 	public void onCreateView(View view) {
 		super.onCreateView(view);
-		ButterKnife.bind(this, view);
 
 		int spanCount = WindowUtils.isPortrait(fragment.getContext()) ? 1 : 2;
+		RecyclerView list = view.findViewById(R.id.list);
 		list.setAdapter(adapter);
 		list.setLayoutManager(new FixedGridLayoutManager(fragment.getContext(), spanCount));
 

@@ -16,8 +16,6 @@ import com.edavtyan.materialplayer2.modular.universal_view.UniversalViewModule;
 
 import java.util.ArrayList;
 
-import butterknife.ButterKnife;
-
 public abstract class ModularFragment extends Fragment implements ThemeableScreen {
 
 	private final ArrayList<UniversalViewModule> modules = new ArrayList<>();
@@ -35,8 +33,6 @@ public abstract class ModularFragment extends Fragment implements ThemeableScree
 			@Nullable Bundle savedInstanceState) {
 
 		View view = inflater.inflate(getLayoutId(), container, false);
-
-		ButterKnife.bind(this, view);
 
 		for (UniversalViewModule module : modules) {
 			if (module instanceof FragmentModule) {
