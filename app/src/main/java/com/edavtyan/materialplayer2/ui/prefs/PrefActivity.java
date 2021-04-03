@@ -13,8 +13,6 @@ import com.edavtyan.materialplayer2.modular.activity.modules.ActivityToolbarModu
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-
 public class PrefActivity extends BaseActivity {
 	@Inject ActivityToolbarModule toolbarModule;
 	@Inject ActivityBaseMenuModule baseMenuModule;
@@ -25,7 +23,6 @@ public class PrefActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_pref);
-		ButterKnife.bind(this);
 
 		getComponent().inject(this);
 		addModule(toolbarModule);
