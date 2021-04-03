@@ -35,10 +35,6 @@ public class EqualizerBandView
 		binding.band.setOnStopTrackingTouchListener(this);
 	}
 
-	public int getGainLimit() {
-		return binding.band.getMax();
-	}
-
 	public void setGainLimit(int gain) {
 		binding.band.setMax(gain);
 	}
@@ -50,10 +46,6 @@ public class EqualizerBandView
 	public void setGain(int gain) {
 		binding.band.setProgress(gain);
 		binding.gain.setText(getGainStr(gain));
-	}
-
-	public int getFrequency() {
-		return frequency;
 	}
 
 	public void setFrequency(int frequency) {
