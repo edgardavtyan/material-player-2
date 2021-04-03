@@ -6,38 +6,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.edavtyan.materialplayer2.R;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import com.edavtyan.materialplayer2.databinding.ListitemSimpleBinding;
 
 public class PlaylistDetailViewHolder
 		extends RecyclerView.ViewHolder
 		implements ItemTouchHelperViewHolder, View.OnClickListener {
 
-	@BindView(R.id.title) TextView textView;
-	@BindView(R.id.menu) ImageButton menuButton;
-	@BindView(R.id.handle) ImageView handle;
-	@BindView(R.id.background) View backgroundView;
-
 	private final PlaylistDetailPresenter presenter;
+	private final ListitemSimpleBinding binding;
 
 	public PlaylistDetailViewHolder(View itemView, PlaylistDetailPresenter presenter) {
 		super(itemView);
 		this.presenter = presenter;
-		ButterKnife.bind(this, itemView);
+		binding = ListitemSimpleBinding.bind(itemView);
 		itemView.setOnClickListener(this);
 
-		PopupMenu menu = new PopupMenu(itemView.getContext(), menuButton);
+		PopupMenu menu = new PopupMenu(itemView.getContext(), binding.menu);
 		menu.inflate(R.menu.menu_playlist);
 		menu.setOnMenuItemClickListener(this::onMenuItemClick);
-		menuButton.setOnClickListener(v -> menu.show());
+		binding.menu.setOnClickListener(v -> menu.show());
 
-		handle.setOnTouchListener((view, event) -> {
+		binding.handle.setOnTouchListener((view, event) -> {
 			if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
 				presenter.onHandleDrag(this);
 			}
@@ -46,7 +37,7 @@ public class PlaylistDetailViewHolder
 	}
 
 	public void setText(String text) {
-		textView.setText(text);
+		binding.title.setText(text);
 	}
 
 	protected boolean onMenuItemClick(MenuItem menuItem) {
@@ -60,12 +51,12 @@ public class PlaylistDetailViewHolder
 
 	@Override
 	public void onItemSelected() {
-		backgroundView.animate().alpha(1);
+		binding.background.animate().alpha(1);
 	}
 
 	@Override
 	public void onItemClear() {
-		backgroundView.animate().alpha(0);
+		binding.background.animate().alpha(0);
 	}
 
 	@Override

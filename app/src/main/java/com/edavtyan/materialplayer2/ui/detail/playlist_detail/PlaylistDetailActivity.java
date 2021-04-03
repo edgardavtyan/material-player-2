@@ -3,25 +3,19 @@ package com.edavtyan.materialplayer2.ui.detail.playlist_detail;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 import com.edavtyan.materialplayer2.App;
-import com.edavtyan.materialplayer2.R;
 import com.edavtyan.materialplayer2.base.BaseActivity;
+import com.edavtyan.materialplayer2.databinding.ActivityPlaylistBinding;
 import com.edavtyan.materialplayer2.lib.theme.ScreenThemeModule;
 import com.edavtyan.materialplayer2.modular.activity.modules.ActivityBaseMenuModule;
 import com.edavtyan.materialplayer2.modular.activity.modules.ActivityToolbarModule;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class PlaylistDetailActivity extends BaseActivity {
 	public static final String EXTRA_PLAYLIST_NAME = "extra_playlistName";
-
-	@BindView(R.id.list) RecyclerView list;
 
 	@Inject PlaylistDetailAdapter adapter;
 	@Inject PlaylistDetailPresenter presenter;
@@ -34,19 +28,19 @@ public class PlaylistDetailActivity extends BaseActivity {
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_playlist);
+		ActivityPlaylistBinding binding = ActivityPlaylistBinding.inflate(getLayoutInflater());
+		setContentView(binding.getRoot());
 		getComponent().inject(this);
 		addModule(toolbarModule);
 		addModule(baseMenuModule);
 		addModule(themeModule);
-		ButterKnife.bind(this);
 
 		ItemTouchHelper.Callback callback = new ItemTouchHelperCallback(adapter);
 		touchHelper = new ItemTouchHelper(callback);
-		touchHelper.attachToRecyclerView(list);
+		touchHelper.attachToRecyclerView(binding.list);
 
-		list.setLayoutManager(new LinearLayoutManager(this));
-		list.setAdapter(adapter);
+		binding.list.setLayoutManager(new LinearLayoutManager(this));
+		binding.list.setAdapter(adapter);
 
 		presenter.onCreate();
 	}
